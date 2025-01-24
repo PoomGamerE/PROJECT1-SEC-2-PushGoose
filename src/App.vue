@@ -4,6 +4,14 @@ import { ref } from 'vue'
 //goose img zone
 const goose_mouth_image = ref('./gooseImages/goose_mouth_close.png')
 
+//Change img zone
+const changeImage = () => {
+  if (goose_mouth_image.value === './gooseImages/goose_mouth_close.png') {
+    goose_mouth_image.value = './gooseImages/goose_mouth_close1.png'
+  } else {
+    goose_mouth_image.value = './gooseImages/goose_mouth_close.png'
+  }
+}
 //score zone
 const score_count = ref(0) //reactive variable
 
@@ -15,7 +23,7 @@ let MColor = "color:black"
 const increaseCount = () => {
   goose_mouth_image.value = './gooseImages/goose_mouth_open.png'
   score_count.value = score_count.value+(1*PresentMultiple.value)
-  //goose_mouth_image.value = './gooseImages/goose_mouth_close.png'
+  // goose_mouth_image.value = './gooseImages/goose_mouth_close.png'
 }
 
 //Random Multiple 
@@ -46,6 +54,7 @@ function RandomMultiple(){
 <template>
   <div class="bg-orange-100 flex items-center justify-center min-h-screen">
     <div class="flex flex-col items-center">
+      <button @click="changeImage"> เปลี่ยนภาพ </button>
       <h1 class="text-6xl font-bold text-gray-800 text-center">
         PushGoose
       </h1>
