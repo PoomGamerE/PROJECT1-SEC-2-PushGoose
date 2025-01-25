@@ -59,39 +59,58 @@ function RandomMultiple(){
         }
         return PresentMultiple.value
     }
-}
+  }
 
+  //Change Background 
+  const bgWindowXP = './backgroundImages/WindowsXp.jpg'
+  const bgFlame = './backgroundImages/Fireflam.jpg'
+  const bgBrain = './backgroundImages/Brain.jpg'
+
+  const background = ref(bgWindowXP) //Original Background
+  
+  function changeBackground(){
+    if(score_count.value <= 200){ 
+      background.value = bgWindowXP
+    }else if(score_count.value > 200 && score_count.value <= 1000){
+      background.value = bgFlame
+    }else{
+      background.value = bgBrain
+    }
+  }
 </script>
 
 <template>
-  <div class="bg-orange-100 flex items-center justify-center min-h-screen">
+  <!-- Background  -->
+  <div v-bind:style="{backgroundImage: `url(${background})`}"
+  class="bg-no-repeat bg-cover flex items-center justify-center min-h-screen "
+>
     <div class="flex flex-col items-center">
-      <button @click="changeImage"> เปลี่ยนภาพ </button>
-      <h1 class="text-6xl font-bold text-gray-800 text-center">
+      <button @click="changeImage" class="bg-white underline"> เปลี่ยนภาพ </button>
+      <h1 class="text-6xl font-bold text-gray-800 text-center bg-white rounded-md">
         PushGoose
       </h1>
       <!-- Count -->
-      <h1 class="text-5xl font-bold text-gray-800 text-center">
+      <h1 class="text-5xl font-bold text-gray-800 text-center bg-white ">
         {{ score_count }}
       </h1>
       <!-- Image -->
       <div class="w-4/5 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl aspect-square">
-        <img class="w-full h-full" v-bind:src="goose_mouth_image" v-on:click="increaseCount();RandomMultiple()"/>
+        <img class="w-full h-full" v-bind:src="goose_mouth_image" v-on:click="increaseCount();RandomMultiple();changeBackground()"/>
       
     </div>
     <!-- Multiple -->
     <div>
-      <h2 class= "text-10 italic font-bold  text-center" v-bind:style="MColor" v-text="`X`+PresentMultiple"></h2>   
+      <h2 class= "text-10 italic font-bold  text-center bg-white " v-bind:style="MColor" v-text="`X`+PresentMultiple"></h2>   
     </div>
     <!-- VolumeOn-Off -->
     <div>
       <div class="absolute top-15 right-15 size-14">  
-        <button v-on:click="whenClicked"><img class="w-12 h-12" v-bind:src="currentVolumeIcon"></button>
+        <button v-on:click="whenClicked"><img class="w-12 h-12 bg-white rounded-xl" v-bind:src="currentVolumeIcon"></button>
       </div>
     </div>
   </div>
 </div>
-  
+
 </template>
 
 <style scoped></style>
