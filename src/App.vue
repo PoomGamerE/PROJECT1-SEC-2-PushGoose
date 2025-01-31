@@ -3,25 +3,46 @@ import { ref } from 'vue'
 
 //goose img zone
 const goose_mouth_image = ref('./gooseImages/goose_mouth_close.png')
+const goose_mouth_image_open = ref('./gooseImages/goose_mouth_open.png');
+const goose_mouth_image_close = ref('./gooseImages/goose_mouth_close.png');
 
 //Change img zone
 const changeImage = () => {
-  if (goose_mouth_image.value === './gooseImages/goose_mouth_close.png') {
-    goose_mouth_image.value = './gooseImages/goose_mouth_close1.png'
+  if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.png"||
+  goose_mouth_image_open.value ==="./gooseImages/goose_mouth_open.png") {
+    changeImagegoose()
   } else {
-    goose_mouth_image.value = './gooseImages/goose_mouth_close.png'
+    changeImagegoose1()
   }
-}
+};
 
 const mouthclose = () => {
-  goose_mouth_image.value = './gooseImages/goose_mouth_close.png'
+  goose_mouth_image.value = goose_mouth_image_close.value
 }
 
 const mouthopen = () => {
-  goose_mouth_image.value = './gooseImages/goose_mouth_open.png'
+  goose_mouth_image.value = goose_mouth_image_open.value
 }
 
+// เปลี่ยนภาพไปเซ็ตแบบที่1
+const changeImagegoose = ()=>{
+score_from_browser = score_count.value
+goose_mouth_image_close.value = "./gooseImages/goose_mouth_close1.png";
+goose_mouth_image_open.value = "./gooseImages/goose_mouth_open1.png";
+goose_mouth_image.value = goose_mouth_image_close.value
+score_count.value = score_from_browser1
+}
+ 
+// เปลี่ยนภาพกลับไปเซ็ตแบบปกติ
+const changeImagegoose1 =()=>{
+score_from_browser1 = score_count.value
+goose_mouth_image_close.value = "./gooseImages/goose_mouth_close.png";
+goose_mouth_image_open.value = "./gooseImages/goose_mouth_open.png"; 
+goose_mouth_image.value = goose_mouth_image_close.value
+score_count.value = score_from_browser
+}
 //score zone
+// คะแนนgooseแบบปกติ
 let score_from_browser = localStorage.getItem('score')
 if (score_from_browser === null) {
   localStorage.setItem('score', 0)
@@ -30,11 +51,25 @@ if (score_from_browser === null) {
 else {
   score_from_browser = Number.parseInt(score_from_browser)
 }
+// คะแนนgooseแบบที่1
+let score_from_browser1 = localStorage.getItem('score1')
+if (score_from_browser1 === null) {
+  localStorage.setItem('score1', 0)
+  score_from_browser1 = 0
+}
+else {
+  score_from_browser1 = Number.parseInt(score_from_browser1)
+}
 const score_count = ref(score_from_browser) //reactive variable
 
 function setScore(score) {
   score_count.value = score
-  localStorage.setItem('score', score)
+  if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.png"||
+  goose_mouth_image_open.value ==="./gooseImages/goose_mouth_open.png") {
+    localStorage.setItem('score', score)
+  } else {
+    localStorage.setItem('score1', score)
+  }
 }
 
 //for Multiple
@@ -166,7 +201,6 @@ function changeBackground() {
   <div v-bind:style="{ backgroundImage: `url(${background})` }"
     class="bg-no-repeat bg-cover flex items-center justify-center min-h-screen ">
     <div class="flex flex-col items-center">
-      <button @click="changeImage" class="bg-white underline"> เปลี่ยนภาพ </button>
       <h1 class="text-6xl font-bold text-gray-800 text-center bg-white rounded-md">
         PushGoose
       </h1>
@@ -191,6 +225,8 @@ function changeBackground() {
         <div class="absolute top-15 right-15 size-14">
           <button v-on:click="whenClicked"><img class="w-12 h-12 bg-white rounded-xl"
               v-bind:src="currentVolumeIcon"></button>
+              <button @click="changeImage" class="px-6 py-3 text-white font-semibold rounded-2xl bg-green-500 hover:bg-green-600 active:scale-95 shadow-lg transition-all duration-300"> 
+                Goose </button>
         </div>
       </div>
     </div>
