@@ -192,6 +192,17 @@ function changeBackground() {
     background.value = bgBrain
   }
 }
+
+// reactive variable
+const isOpen = ref(false)
+//open & close MiniGameModal
+const openMiniGameModal = () => {
+  isOpen.value = true
+}
+const closeMiniGameModal = () => {
+  isOpen.value = false
+}
+
 </script>
 
 <template>
@@ -210,7 +221,7 @@ function changeBackground() {
       </h1>
       <!-- Image -->
       <div class="w-4/5 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl aspect-square">
-        <img class="w-full h-full" v-bind:src="goose_mouth_image"
+        <img class="w-full h-full cursor-pointer" v-bind:src="goose_mouth_image"
           @click="increaseCount(); RandomMultiple(); changeBackground(); MinigameMath()" @mousedown="mouthopen" @mouseup="mouthclose" />
 
       </div>
@@ -223,12 +234,35 @@ function changeBackground() {
       <!-- VolumeOn-Off -->
       <div>
         <div class="absolute top-15 right-15 size-14">
-          <button v-on:click="whenClicked"><img class="w-12 h-12 bg-white rounded-xl"
+          <button v-on:click="whenClicked"><img class="w-12 h-12 rounded-xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 
+        hover:scale-110 cursor-pointer"
               v-bind:src="currentVolumeIcon"></button>
-              <button @click="changeImage" class="px-6 py-3 text-white font-semibold rounded-2xl bg-green-500 hover:bg-green-600 active:scale-95 shadow-lg transition-all duration-300"> 
+              <button @click="changeImage" class="px-6 py-3 text-white font-semibold rounded-2xl bg-green-500 hover:bg-green-600 active:scale-95 shadow-lg transition-all 
+              duration-300 cursor-pointer"> 
                 Goose </button>
         </div>
       </div>
+      <!-- mini game button -->
+      <div class="absolute top-45 right-15 size-14">
+        <button class="px-6 py-3 text-white font-semibold rounded-2xl bg-green-500 hover:bg-green-600 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 
+        hover:scale-110 hover:bg-indigo-500 cursor-pointer" 
+        @click="openMiniGameModal">Mini Game</button>
+      </div>
+      <!-- modal -->
+      <div v-if="isOpen" class="fixed top-85 right-4 transform -translate-y-1/2 border-black border rounded-lg z-10 bg-white w-2xs max-w-lg">
+      <!-- modal header -->
+      <div v-if="isOpen" class="p-4 px-4 flex justify-between items-center border-black border-b text-xl font-bold">
+        <div class="text-xl font-bold">Mini Game</div>
+        <button @click="closeMiniGameModal" class="fond-bold text-2xl cursor-pointer transition-transform duration-0.2">&times;</button>  
+      </div>
+      <!-- modal body -->
+      <div class="p-4 px-4">
+        <!-- Math Quiz Button -->
+        <button class="px-6 py-3 text-white font-semibold rounded-2xl bg-green-500 hover:bg-green-600 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 
+        hover:scale-110 hover:bg-indigo-500 cursor-pointer">Math</button>
+      </div>
+    </div>
+    <div class="fixed top-0 left-0 bottom-0 right-0 pointer-events-none"></div>
     </div>
   </div>
 </div>
