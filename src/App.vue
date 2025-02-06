@@ -174,20 +174,62 @@ display2show = "display:none"
 }
 
 
+//Guessing game from pictures game
+const guessingQuestion = ref([
+  {image1 : './guessinggame/เย็น.png' , image2 : './guessinggame/สี่ตา.jpg' , anwser : 'เย็นตาโฟ'},
+  {image1 : './guessinggame/ลิ้น.jpg' , image2 : './guessinggame/ข้าวจี่่.jpg' , anwser : 'ลิ้นจี่'},
+  {image1 : './guessinggame/โล.jpg' , image2 : './guessinggame/ตี.jpg' , anwser : 'โรตี'},
+  {image1 : './guessinggame/กุ้ง.jpg' , image2 : './guessinggame/เต้น.jpg' , anwser : 'กุ้งเต้น'}
+])
+let randomQuestion = ref(randomGuesingQ())
+let YourAnwser = ref('')
+let message = ref('')
+let messageClass = ref('')
+
+function checkGuessingAns(){
+  if(YourAnwser.value.trim() === randomQuestion.value.anwser){
+    message.value = 'Correct!!!!'
+    messageClass.value = 'text-green-600 mt-4 font-semibold'
+  }else {
+    message.value = 'Wrong!!!! Let’s try again'
+    messageClass.value = 'text-red-600 mt-4 font-semibold'
+  }
+}
+function newGuessingQuestion() {
+  randomQuestion.value = randomGuesingQ()
+  YourAnwser.value = ''
+  message.value = ''
+  messageClass.value = ''
+}
+function randomGuesingQ() {
+  return guessingQuestion.value[Math.floor(Math.random() * guessingQuestion.value.length)]
+}
 
 
 //Change Background 
 const bgWindowXP = './backgroundImages/WindowsXp.jpg'
 const bgFlame = './backgroundImages/Fireflam.jpg'
 const bgBrain = './backgroundImages/Brain.jpg'
+const bgMountain = './backgroundImages/moutain.jpg'
+const bgSea = './backgroundImages/sea.jpg'
+const bgVolcano = './backgroundImages/volcano.jpg'
+const bgSpace = './backgroundImages/space.jpg'
 
 const background = ref(bgWindowXP) //Original Background
 
 function changeBackground() {
-  if (score_count.value <= 200) {
+  if (score_count.value <= 500) {
     background.value = bgWindowXP
-  } else if (score_count.value > 200 && score_count.value <= 1000) {
+  } else if (score_count.value > 500 && score_count.value <= 1500) {
+    background.value = bgMountain
+  } else if (score_count.value > 1500 && score_count.value <= 3000) {
+    background.value = bgSea
+  } else if (score_count.value > 3000 && score_count.value <= 4500) {
     background.value = bgFlame
+  } else if (score_count.value > 4500 && score_count.value <= 7000) {
+    background.value = bgVolcano
+  } else if (score_count.value > 7000 && score_count.value <= 10000) {
+    background.value = bgSpace
   } else {
     background.value = bgBrain
   }
@@ -275,6 +317,8 @@ const closeMiniGameModal = () => {
     </div>
   </div>
 </div>
+
+<!-- MathGame UI -->
 <div class="flex items-center justify-center min-h-screen bg-gray-100 m-0">
         <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
             <h1 class="text-2xl font-bold mb-4">Number Quiz Game</h1>
@@ -284,6 +328,26 @@ const closeMiniGameModal = () => {
             <p class="mb-4 justify-center">- Answer Within 20 Second</p>
             <p class="mb-2 justify-center">- If Operation is divide. Answer With Two Decimal Place </p>
 </div>
+
+<!-- GuessingGame UI -->
+<div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 m-0 ">
+        <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
+            <h1 class="text-2xl font-bold mb-4">Guessing from pictures</h1>
+            <div class="flex justify-center gap-2 mb-4">
+              <img :src="randomQuestion.image1" alt="question img1" class="w-40 h-40 rounded shadow">
+              <img :src="randomQuestion.image2" alt="question img2" class="w-40 h-40 rounded shadow">
+            </div> 
+            <p class="mb-4">Enter your anwser : {{ InputText }}</p>
+            <input v-model="YourAnwser" type="text" class="border rounded w-full py-2 px-3 mb-4" placeholder="Your answer">
+            <div class="flex gap-2">
+              <button class="px-4 py-2 text-white font-semibold rounded-2xl bg-green-500 hover:bg-green-600" @click="checkGuessingAns">Submit</button>
+              <button class="px-4 py-2 text-white font-semibold rounded-2xl bg-blue-500 hover:bg-blue-600" @click="newGuessingQuestion">New Question</button>
+            </div>
+
+            <p :class="messageClass">{{ message }}</p>
+        </div>
+</div>
+
 </div>
 </div>
 </template>
