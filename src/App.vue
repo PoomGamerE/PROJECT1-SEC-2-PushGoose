@@ -249,17 +249,26 @@ const closeMiniGameModal = () => {
         @click="openMiniGameModal">Mini Game</button>
       </div>
       <!-- modal -->
-      <div v-if="isOpen" class="fixed top-85 right-4 transform -translate-y-1/2 border-black border rounded-lg z-10 bg-white w-2xs max-w-lg">
+      <div v-if="isOpen" class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-black border rounded-lg z-10 bg-purple-300 w-350 h-200">
       <!-- modal header -->
-      <div v-if="isOpen" class="p-4 px-4 flex justify-between items-center border-black border-b text-xl font-bold">
+      <div v-if="isOpen" class="p-4 px-8 flex justify-between items-center border-black border-b text-xl font-bold">
         <div class="text-xl font-bold">Mini Game</div>
-        <button @click="closeMiniGameModal" class="fond-bold text-2xl cursor-pointer transition-transform duration-0.2">&times;</button>  
+        <button @click="closeMiniGameModal" class="fond-bold text-3xl cursor-pointer transition-transform duration-0.2">&times;</button>  
       </div>
       <!-- modal body -->
-      <div class="p-4 px-4">
+      <div class="p-4 px-4 flex justify-center">
         <!-- Math Quiz Button -->
-        <button class="px-6 py-3 text-white font-semibold rounded-2xl bg-green-500 hover:bg-green-600 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 
-        hover:scale-110 hover:bg-indigo-500 cursor-pointer">Math</button>
+         <div class="grid grid-flow-col mt-15 justify-center gap-12">
+          <button class="cursor-pointer"><img src="./assets/testModalPic/herta1.jpg" 
+            class="w-100 h-auto border-2 border-transparent rounded-lg transition-transform duration-300 hover:scale-110 hover:border-red-500 border-5">
+          </button>
+          <button class="cursor-pointer"><img src="./assets/testModalPic/herta2.jpg" 
+            class="w-100 h-auto border-2 border-transparent rounded-lg transition-transform duration-300 hover:scale-110 hover:border-red-500 border-5">
+          </button>
+          <button class="cursor-pointer"><img src="./assets/testModalPic/herta3.jpg" 
+            class="w-100 h-auto border-2 border-transparent rounded-lg transition-transform duration-300 hover:scale-110 hover:border-red-500 border-5">
+          </button>
+        </div>
       </div>
     </div>
     <div class="fixed top-0 left-0 bottom-0 right-0 pointer-events-none"></div>
