@@ -61,8 +61,10 @@ else {
   score_from_browser1 = Number.parseInt(score_from_browser1)
 }
 const score_count = ref(score_from_browser) //reactive variable
+const old_score = ref(0)
 
 function setScore(score) {
+  old_score.value = score_count.value
   score_count.value = score
   if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.png" ||
     goose_mouth_image_open.value === "./gooseImages/goose_mouth_open.png") {
@@ -245,14 +247,14 @@ const closeMiniGameModal = () => {
   isOpen.value = false
 }
 
-//Minigame3 (Poom) Part
+//Minigame3 (Poom) Part -----------------------------------------------------------------------------------------------------------------------------------------------------
 
 const minigame3On = ref(false)
 const unitNameBefore = ref('')
 const unitNameAfter = ref('')
 const beforeConvert = ref(0)
 const userAnswer = ref(0)
-const scoreGiveForWin = getRandomIntInclusive(10, 100)
+const scoreGiveForWin = ref(0)
 
 const openMiniGame3 = () => {
   isOpen.value = false
@@ -298,27 +300,43 @@ watch(
   userAnswer, (newValue, oldValue) => {
     if (unitNameBefore.value === 'Hour') {
       if (newValue === beforeConvert.value * 60) {
-        setScore(score_count.value + scoreGiveForWin)
+        scoreGiveForWin.value = getRandomIntInclusive(10, 100)
+        setScore(score_count.value + scoreGiveForWin.value)
         userAnswer.value = ""
-        closeMiniGame3()
+        congratPlayerWin()
       }
     }
     else {
       if (newValue === beforeConvert.value / 60) {
-        setScore(score_count.value + scoreGiveForWin)
+        scoreGiveForWin.value = getRandomIntInclusive(10, 100)
+        setScore(score_count.value + scoreGiveForWin.value)
         userAnswer.value = ""
-        closeMiniGame3()
+        congratPlayerWin()
       }
     }
   }
 )
+
+//Minigame Winner Page Part -----------------------------------------------------------------------------------------------------------------------------------------------------
+
+const minigameWin = ref(false)
+
+const congratPlayerWin = () => {
+  closeMiniGame3()
+  minigameWin.value = true
+  setTimeout(closeCongratPlayerWin, 2000)
+}
+
+const closeCongratPlayerWin = () => {
+  minigameWin.value = false
+}
 
 </script>
 
 <template>
   <div>
     <!-- Main Page of PushGoose  -->
-    <div v-bind:style="displayshow" v-if="minigame3On !== true">
+    <div v-bind:style="displayshow" v-if="minigame3On !== true && minigameWin !== true">
       <div v-bind:style="{ backgroundImage: `url(${background})` }"
         class="bg-no-repeat bg-cover flex items-center justify-center min-h-screen ">
         <div class="flex flex-col items-center">
@@ -456,6 +474,14 @@ watch(
         <button
           class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300">❗หากตอบถูกระบบจะปิดหน้าต่างนี้อัตโนมัติ</button>
       </div>
+    </div>
+
+    <!-- Winner Page of PushGoose  -->
+    <div v-if="minigameWin"
+      class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-600 to-green-600 p-6 text-white text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-2 drop-shadow-lg">Answer Correct !</h1>
+      <p class="text-lg md:text-xl">You earned <span class="font-semibold">{{ score_count - old_score }}</span> points!
+      </p>
     </div>
 
   </div>
