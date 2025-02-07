@@ -7,14 +7,12 @@ const goose_mouth_image_open = ref('./gooseImages/goose_mouth_open.png');
 const goose_mouth_image_close = ref('./gooseImages/goose_mouth_close.png');
 
 //Change img zone
-const changeImage = () => {
-  if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.png" ||
-    goose_mouth_image_open.value === "./gooseImages/goose_mouth_open.png") {
+const changeImage = (event) => {
+  if (event.target.value==="BadGoose") {
     changeImagegoose()
-  } else {
+  } else if (event.target.value === "Goose")
     changeImagegoose1()
   }
-};
 
 const mouthclose = () => {
   goose_mouth_image.value = goose_mouth_image_close.value
@@ -31,6 +29,7 @@ const changeImagegoose = () => {
   goose_mouth_image_open.value = "./gooseImages/goose_mouth_open1.png";
   goose_mouth_image.value = goose_mouth_image_close.value
   score_count.value = score_from_browser1
+  changeBackgroundBadGoose()
 }
 
 // เปลี่ยนภาพกลับไปเซ็ตแบบปกติ
@@ -40,6 +39,7 @@ const changeImagegoose1 = () => {
   goose_mouth_image_open.value = "./gooseImages/goose_mouth_open.png";
   goose_mouth_image.value = goose_mouth_image_close.value
   score_count.value = score_from_browser
+  changeBackgroundGoose()
 }
 //score zone
 // คะแนนgooseแบบปกติ
@@ -80,7 +80,13 @@ let PresentMultiple = ref(1)
 let MColor = "color:black"
 
 const increaseCount = () => {
-  setScore(score_count.value + (1 * PresentMultiple.value))
+  if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.png"||
+  goose_mouth_image_open.value ==="./gooseImages/goose_mouth_open.png") {
+    setScore(score_count.value + (1 * PresentMultiple.value))
+  } else {
+    setScore(score_count.value - (1 * PresentMultiple.value))
+  }
+  
 }
 
 const volumeOn = './volumeOn_Off/volume_on.png' //volume-on.png
@@ -212,7 +218,7 @@ function randomGuesingQ() {
 const bgWindowXP = './backgroundImages/WindowsXp.jpg'
 const bgFlame = './backgroundImages/Fireflam.jpg'
 const bgBrain = './backgroundImages/Brain.jpg'
-const bgMountain = './backgroundImages/moutain.jpg'
+const bgMountain = './backgroundImages/mountain.jpg'
 const bgSea = './backgroundImages/sea.jpg'
 const bgVolcano = './backgroundImages/volcano.jpg'
 const bgSpace = './backgroundImages/space.jpg'
@@ -220,6 +226,17 @@ const bgSpace = './backgroundImages/space.jpg'
 const background = ref(bgWindowXP) //Original Background
 
 function changeBackground() {
+  if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.png"||
+  goose_mouth_image_open.value ==="./gooseImages/goose_mouth_open.png") {
+    changeBackgroundGoose()
+  }else{
+    changeBackgroundBadGoose()
+  }
+}
+
+
+
+function changeBackgroundGoose() {
   if (score_count.value <= 500) {
     background.value = bgWindowXP
   } else if (score_count.value > 500 && score_count.value <= 1500) {
@@ -231,6 +248,24 @@ function changeBackground() {
   } else if (score_count.value > 4500 && score_count.value <= 7000) {
     background.value = bgVolcano
   } else if (score_count.value > 7000 && score_count.value <= 10000) {
+    background.value = bgSpace
+  } else {
+    background.value = bgBrain
+  }
+}
+
+function changeBackgroundBadGoose() {
+  if (score_count.value >= -500) {
+    background.value = bgWindowXP
+  } else if (score_count.value < -500 && score_count.value >= -1500) {
+    background.value = bgMountain
+  } else if (score_count.value < -1500 && score_count.value >= -3000) {
+    background.value = bgSea
+  } else if (score_count.value < -3000 && score_count.value >= -4500) {
+    background.value = bgFlame
+  } else if (score_count.value < -4500 && score_count.value >= -7000) {
+    background.value = bgVolcano
+  } else if (score_count.value < -7000 && score_count.value >= -10000) {
     background.value = bgSpace
   } else {
     background.value = bgBrain
@@ -365,9 +400,11 @@ const closeCongratPlayerWin = () => {
             <div class="absolute top-15 right-15 size-14">
               <button v-on:click="whenClicked"><img class="w-12 h-12 rounded-xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 
         hover:scale-110 cursor-pointer" v-bind:src="currentVolumeIcon"></button>
-              <button @click="changeImage" class="px-6 py-3 text-white font-semibold rounded-2xl bg-green-500 hover:bg-green-600 active:scale-95 shadow-lg transition-all 
+        <select @change="changeImage"  class="px-6 py-3 text-white font-semibold rounded-2xl bg-green-500 hover:bg-green-600 active:scale-95 shadow-lg transition-all 
               duration-300 cursor-pointer">
-                Goose </button>
+                <option value="Goose">Goose</option>
+                <option value="BadGoose">Bad</option>
+                </select>
             </div>
           </div>
           <!-- mini game button -->
