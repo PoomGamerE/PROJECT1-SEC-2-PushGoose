@@ -135,7 +135,7 @@ let mathran2 = Math.ceil(Math.random() * 4);
 let MathOperation = "+"
 let InputNumber = ref(0)
 function MinigameMath() {
-  if (score_count.value % 13 === mathran || score_count.value % 17 === mathran) {
+    isOpen.value = false
     displayshow = "display:none"
     display2show = "display:block"
     math1 = 0
@@ -162,21 +162,33 @@ function MinigameMath() {
       MathOperation = "÷"
       mathsum = (math1 / math2).toFixed(2)
     }
+    
+    setTimeout(LosingMinigame, 30000)
+  }
 
-    setTimeout(AnswerMinigame, 20000)
+  
+  watch([InputNumber],()=> {
+  if (InputNumber.value===mathsum) {
+    let newscore = score_count.value + (Math.floor(score_count.value / 10))
+    setScore(newscore)
+    clearTimeout(setTimeout(LosingMinigame, 30000))
+    MathcongratPlayerWin()
+    InputNumber.value = 0
+    math1 = 0
+  math2 = 0
+  displayshow = "display:block"
+  display2show = "display:none"
   }
-}
-function AnswerMinigame() {
-  if (InputNumber.value == mathsum) {
-    score_count.value = score_count.value + (Math.floor(score_count.value / 10))
-    clearTimeout(setTimeout(AnswerMinigame, 10000))
-  }
-  if (InputNumber.value != mathsum) {
-    score_count.value = Math.floor(score_count.value / 2)
-    clearTimeout(setTimeout(AnswerMinigame, 10000))
-  }
+})
+
+function LosingMinigame() {
+  let newscore = Math.floor(score_count.value / 2)
+  setScore(newscore)
+  clearTimeout(setTimeout(LosingMinigame, 30000))
+  MathcongratPlayerWin()
   math1 = 0
   math2 = 0
+  InputNumber.value = 0
   displayshow = "display:block"
   display2show = "display:none"
 }
@@ -338,6 +350,7 @@ watch(
         scoreGiveForWin.value = getRandomIntInclusive(10, 100)
         setScore(score_count.value + scoreGiveForWin.value)
         userAnswer.value = ""
+        clearTimeout(setTimeout(closeMiniGame3, 15000))
         congratPlayerWin()
       }
     }
@@ -346,6 +359,7 @@ watch(
         scoreGiveForWin.value = getRandomIntInclusive(10, 100)
         setScore(score_count.value + scoreGiveForWin.value)
         userAnswer.value = ""
+        clearTimeout(setTimeout(closeMiniGame3, 15000))
         congratPlayerWin()
       }
     }
@@ -361,7 +375,10 @@ const congratPlayerWin = () => {
   minigameWin.value = true
   setTimeout(closeCongratPlayerWin, 2000)
 }
-
+const MathcongratPlayerWin = () => {
+  minigameWin.value = true
+  setTimeout(closeCongratPlayerWin, 2000)
+}
 const closeCongratPlayerWin = () => {
   minigameWin.value = false
 }
@@ -385,7 +402,7 @@ const closeCongratPlayerWin = () => {
           <!-- Image -->
           <div class="w-4/5 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl aspect-square">
             <img class="w-full h-full cursor-pointer" v-bind:src="goose_mouth_image"
-              @click="increaseCount(); RandomMultiple(); changeBackground(); MinigameMath()" @mousedown="mouthopen"
+              @click="increaseCount(); RandomMultiple(); changeBackground();" @mousedown="mouthopen"
               @mouseup="mouthclose" />
 
           </div>
@@ -426,7 +443,7 @@ const closeCongratPlayerWin = () => {
             <div class="p-4 px-4 flex justify-center">
               <!-- Math Quiz Button -->
               <div class="grid grid-flow-col mt-15 justify-center gap-12">
-                <button class="cursor-pointer"><img src="./assets/testModalPic/herta1.jpg"
+                <button @click="MinigameMath" class="cursor-pointer"><img src="./assets/testModalPic/herta1.jpg"
                     class="w-100 h-auto border-2 border-transparent rounded-lg transition-transform duration-300 hover:scale-110 hover:border-red-500 border-5">
                 </button>
                 <button class="cursor-pointer"><img src="./assets/testModalPic/herta2.jpg"
@@ -455,12 +472,17 @@ const closeCongratPlayerWin = () => {
           }}</div>
           <input type="number" id="answer" class="border rounded w-full py-2 px-3 mb-4" placeholder="Your answer"
             v-model.numbers="InputNumber">
-          <p class="mb-4 justify-center">- Answer Within 20 Second</p>
+          <p class="mb-4 justify-center">- Answer Within 30 Second</p>
           <p class="mb-2 justify-center">- If Operation is divide. Answer With Two Decimal Place </p>
         </div>
 
-        <!-- GuessingGame UI -->
-        <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 m-0 ">
+        
+        </div>
+      </div>
+    </div>
+    <div>
+      <!-- GuessingGame UI -->
+      <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 m-0 " v-show="false">
           <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
             <h1 class="text-2xl font-bold mb-4">Guessing from pictures</h1>
             <div class="flex justify-center gap-2 mb-4">
@@ -479,10 +501,7 @@ const closeCongratPlayerWin = () => {
 
             <p :class="messageClass">{{ message }}</p>
           </div>
-        </div>
-      </div>
     </div>
-
     <!-- Minigame3 (Poom) of PushGoose  -->
     <div v-if="minigame3On === true"
       class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-400 to-green-400 p-6 text-white">
