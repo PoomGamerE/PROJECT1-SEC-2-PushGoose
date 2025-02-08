@@ -169,8 +169,6 @@ function MinigameMath() {
 
   
   watch([InputNumber],()=> {
-    console.log(InputNumber.value)
-    console.log(mathsum)
   if (InputNumber.value==mathsum) {
     let newscore = score_count.value + (Math.floor(score_count.value / 10))
     setScore(newscore)
