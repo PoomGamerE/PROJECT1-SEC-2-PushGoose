@@ -134,6 +134,7 @@ let mathran = Math.ceil(Math.random() * 20);
 let mathran2 = Math.ceil(Math.random() * 4);
 let MathOperation = "+"
 let InputNumber = ref(0)
+let Timeouts = []
 function MinigameMath() {
     isOpen.value = false
     displayshow = "display:none"
@@ -143,8 +144,8 @@ function MinigameMath() {
     mathran = Math.ceil(Math.random() * 10);
     mathran2 = Math.ceil(Math.random() * 4)
     do {
-      math1 = Math.ceil(Math.random() * 10000);
-      math2 = Math.ceil(Math.random() * 10000);
+      math1 = Math.ceil(Math.random() * 10000) + 1;
+      math2 = Math.ceil(Math.random() * 10000) + 1;
     } while (math1 < math2)
     if (mathran2 === 0) {
       MathOperation = "+"
@@ -162,29 +163,33 @@ function MinigameMath() {
       MathOperation = "÷"
       mathsum = (math1 / math2).toFixed(2)
     }
-    
-    setTimeout(LosingMinigame, 30000)
+    let Timeout = setTimeout(LosingMinigame, 30000)
+    Timeouts.push(Timeout)
   }
 
   
   watch([InputNumber],()=> {
-  if (InputNumber.value===mathsum) {
+  if (InputNumber.value==mathsum) {
     let newscore = score_count.value + (Math.floor(score_count.value / 10))
     setScore(newscore)
-    clearTimeout(setTimeout(LosingMinigame, 30000))
+    Timeouts.forEach(id => clearTimeout(id)); // ใช้อันนี้เพราะหาวิธีแก้Timeoutไม่ได้เลยลบให้หมดเลย ใช้clearTimeoutปกติไม่ได้
+    Timeouts = []
     MathcongratPlayerWin()
     InputNumber.value = 0
     math1 = 0
-  math2 = 0
-  displayshow = "display:block"
-  display2show = "display:none"
+    math2 = 0
+    displayshow = "display:block"
+    display2show = "display:none"
   }
 })
+
+
 
 function LosingMinigame() {
   let newscore = Math.floor(score_count.value / 2)
   setScore(newscore)
-  clearTimeout(setTimeout(LosingMinigame, 30000))
+  Timeouts.forEach(id => clearTimeout(id));
+  Timeouts = []
   MathcongratPlayerWin()
   math1 = 0
   math2 = 0
