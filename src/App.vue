@@ -8,11 +8,11 @@ const goose_mouth_image_close = ref('./gooseImages/goose_mouth_close.png');
 
 //Change img zone
 const changeImage = (event) => {
-  if (event.target.value==="BadGoose") {
+  if (event.target.value === "BadGoose") {
     changeImagegooseBadGoose()
   } else if (event.target.value === "Goose")
-  changeImagegoose()
-  }
+    changeImagegoose()
+}
 
 const mouthclose = () => {
   goose_mouth_image.value = goose_mouth_image_close.value
@@ -80,13 +80,13 @@ let PresentMultiple = ref(1)
 let MColor = "color:black"
 
 const increaseCount = () => {
-  if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.png"&&
-  goose_mouth_image_open.value ==="./gooseImages/goose_mouth_open.png") {
+  if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.png" &&
+    goose_mouth_image_open.value === "./gooseImages/goose_mouth_open.png") {
     setScore(score_count.value + (1 * PresentMultiple.value))
   } else {
     setScore(score_count.value - (1 * PresentMultiple.value))
   }
-  
+
 }
 
 const volumeOn = './volumeOn_Off/volume_on.png' //volume-on.png
@@ -136,46 +136,46 @@ let InputNumber = ref(0)
 let Timeouts = []
 
 function MinigameMath() {
-    isOpen.value = false
-    displayshow = "display:none"
-    display2show = "display:block"
-    math1 = 0
-    math2 = 0
-    mathran2 = Math.ceil(Math.random() * 3)
-    do {
-      math1 = Math.ceil(Math.random() * 10000) + 1;
-      math2 = Math.ceil(Math.random() * 10000) + 1;
-    } while (math1 < math2)
-    if (mathran2 === 0) {
-      MathOperation = "+"
-      mathsum = math1 + math2
-    }
-    if (mathran2 === 1) {
-      MathOperation = "-"
-      mathsum = math1 - math2
-    }
-    if (mathran2 === 2) {
-      MathOperation = "×"
-      mathsum = math1 * math2
-    }
-    if(Timeouts.length===0 && mathsum!==0 && mathsum!==undefined && mathsum!==null){
+  isOpen.value = false
+  displayshow = "display:none"
+  display2show = "display:block"
+  math1 = 0
+  math2 = 0
+  mathran2 = Math.ceil(Math.random() * 3)
+  do {
+    math1 = Math.ceil(Math.random() * 10000) + 1;
+    math2 = Math.ceil(Math.random() * 10000) + 1;
+  } while (math1 < math2)
+  if (mathran2 === 0) {
+    MathOperation = "+"
+    mathsum = math1 + math2
+  }
+  if (mathran2 === 1) {
+    MathOperation = "-"
+    mathsum = math1 - math2
+  }
+  if (mathran2 === 2) {
+    MathOperation = "×"
+    mathsum = math1 * math2
+  }
+  if (Timeouts.length === 0 && mathsum !== 0 && mathsum !== undefined && mathsum !== null) {
     let Timeout = setTimeout(LosingMinigame, 30000)
     Timeouts.push(Timeout)
-    } else { // ดักเผื่อ timeout ซ้อนกัน และกันไม่มีตัวเลขเมื่อกดเล่น minigame
-      InputNumber.value = 0
-      math1 = 0
-      math2 = 0
-      displayshow = "display:block"
-      display2show = "display:none"
-      Timeouts.forEach(id => clearTimeout(id)); 
-      Timeouts = []
-      MinigameMath()
-    }
+  } else { // ดักเผื่อ timeout ซ้อนกัน และกันไม่มีตัวเลขเมื่อกดเล่น minigame
+    InputNumber.value = 0
+    math1 = 0
+    math2 = 0
+    displayshow = "display:block"
+    display2show = "display:none"
+    Timeouts.forEach(id => clearTimeout(id));
+    Timeouts = []
+    MinigameMath()
   }
+}
 
-  
-  watch([InputNumber],()=> {
-  if (InputNumber.value==mathsum) {
+
+watch([InputNumber], () => {
+  if (InputNumber.value == mathsum) {
     let newscore = score_count.value + (Math.floor(score_count.value / 10))
     setScore(newscore)
     Timeouts.forEach(id => clearTimeout(id)); // ใช้อันนี้เพราะหาวิธีแก้Timeoutไม่ได้เลยลบให้หมดเลย ใช้clearTimeoutปกติไม่ได้(ไม่รู้ทำไมเหมือนกัน)
@@ -224,16 +224,16 @@ function checkGuessingAns() {
     message.value = 'Correct!!!!'
     messageClass.value = 'text-green-600 mt-8 text-center font-bold'
     setTimeout(congratMiniG2PlayerWin, 500)
-    
+
   } else {
     let newScoreMN2 = score_count.value - (Math.floor(score_count.value / 5))
     setScore(newScoreMN2)
     setTimeout(() => {
       message.value = 'Wrong!!!! Let’s try again'
       messageClass.value = 'text-red-600 mt-8 text-center font-bold'
-      displayMiniG2="display:none"
-      displayshow="display:block"
-    }, 2000);  
+      displayMiniG2 = "display:none"
+      displayshow = "display:block"
+    }, 2000);
   }
 }
 
@@ -263,10 +263,10 @@ const bgSpace = './backgroundImages/space.jpg'
 const background = ref(bgWindowXP) //Original Background
 
 function changeBackground() {
-  if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.png"||
-  goose_mouth_image_open.value ==="./gooseImages/goose_mouth_open.png") {
+  if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.png" ||
+    goose_mouth_image_open.value === "./gooseImages/goose_mouth_open.png") {
     changeBackgroundGoose()
-  }else{
+  } else {
     changeBackgroundBadGoose()
   }
 }
@@ -401,7 +401,7 @@ const congratPlayerWin = () => {
   setTimeout(closeCongratPlayerWin, 2000)
 }
 const congratMiniG2PlayerWin = () => {
-  displayMiniG2="display:none"
+  displayMiniG2 = "display:none"
   minigameWin.value = true
   setTimeout(closeCongratPlayerWin, 2000)
 }
@@ -411,7 +411,7 @@ const MathcongratPlayerWin = () => {
   setTimeout(closeCongratPlayerWin, 2000)
 }
 const closeCongratPlayerWin = () => {
-  displayshow="display:block"
+  displayshow = "display:block"
   minigameWin.value = false
 }
 
@@ -419,76 +419,113 @@ const closeCongratPlayerWin = () => {
 
 <template>
   <div>
-    <!-- Main Page of PushGoose  -->
-    <div v-bind:style="displayshow" v-if="minigame3On !== true && minigameWin !== true">
+    <!-- Main Page of PushGoose -->
+    <div v-bind:style="displayshow" v-if="minigame3On !== true && minigameWin !== true"
+      class="overflow-hidden h-screen">
       <div v-bind:style="{ backgroundImage: `url(${background})` }"
-        class="bg-no-repeat bg-cover flex items-center justify-center min-h-screen ">
-        <div class="flex flex-col items-center">
-          <h1 class="text-6xl font-bold text-gray-800 text-center bg-white rounded-md">
-            PushGoose
-          </h1>
-          <!-- Count -->
-          <h1 class="text-5xl font-bold text-gray-800 text-center bg-white ">
-            {{ score_count }}
-          </h1>
-          <!-- Image -->
-          <div class="w-4/5 max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl aspect-square">
-            <img class="w-full h-full cursor-pointer" v-bind:src="goose_mouth_image"
-              @click="increaseCount(); RandomMultiple(); changeBackground();" @mousedown="mouthopen"
-              @mouseup="mouthclose" />
+        class="bg-no-repeat bg-cover flex flex-col items-center justify-center h-screen p-4">
+        <!-- Title with Text Outline (ปรับสีให้สวยงามและรองรับพื้นหลัง) -->
+        <h1 class="text-7xl font-bold text-transparent bg-clip-text bg-gradient-to-r text-white
+             text-center px-4 py-2 rounded-md"
+          style="text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.9), 6px 6px 12px rgba(0, 0, 0, 0.8);">
+          PushGoose
+        </h1>
 
-          </div>
-          <!-- Multiple -->
-          <div>
-            <h2 class="text-10 italic font-bold  text-center bg-white " v-bind:style="MColor"
-              v-text="`X` + PresentMultiple">
-            </h2>
-          </div>
-          <!-- VolumeOn-Off -->
-          <div>
-            <div class="absolute top-15 right-15 size-14">
-              <button v-on:click="whenClicked"><img class="w-12 h-12 rounded-xl transition delay-150 duration-300 ease-in-out hover:-translate-y-1 
-        hover:scale-110 cursor-pointer" v-bind:src="currentVolumeIcon"></button>
-        <select @change="changeImage"  class="px-6 py-3 text-white font-semibold rounded-2xl bg-green-500 hover:bg-green-600 active:scale-95 shadow-lg transition-all 
-              duration-300 cursor-pointer">
-                <option value="Goose">Goose</option>
-                <option value="BadGoose">Bad</option>
-                </select>
-            </div>
-          </div>
-          <!-- mini game button -->
-          <div class="absolute top-45 right-15 size-14">
-            <button class="px-6 py-3 text-white font-semibold rounded-2xl bg-green-500 hover:bg-green-600 transition delay-150 duration-300 ease-in-out hover:-translate-y-1 
-        hover:scale-110 hover:bg-indigo-500 cursor-pointer" @click="openMiniGameModal">Mini Game</button>
-          </div>
-          <!-- modal -->
-          <div v-if="isOpen"
-            class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border-black border rounded-lg z-10 bg-purple-300 w-350 h-200">
-            <!-- modal header -->
-            <div v-if="isOpen"
-              class="p-4 px-8 flex justify-between items-center border-black border-b text-xl font-bold">
-              <div class="text-xl font-bold">Mini Game</div>
+        <!-- Score Count with Text Outline -->
+        <h1 class="text-5xl font-bold text-yellow-700 bg-clip-text bg-gradient-to-r from-yellow-600 to-yellow-800
+             text-center px-4 py-2 rounded-md mt-1" style="text-shadow: 
+           0px 0px 4px rgba(255, 255, 255, 0.9), 
+           0px 0px 8px rgba(255, 255, 255, 0.6);">
+          {{ score_count }}
+        </h1>
+
+        <!-- Goose Image (No Border, Adjusted Size) -->
+        <div class="w-3/4 sm:w-2/3 md:w-1/2 lg:w-1/3 xl:w-1/4 mt-6">
+          <img class="w-full h-full cursor-pointer rounded-none" v-bind:src="goose_mouth_image"
+            @click="increaseCount(); RandomMultiple(); changeBackground();" @mousedown="mouthopen"
+            @mouseup="mouthclose" />
+        </div>
+
+        <!-- Multiple Display with Text Outline -->
+        <h2 class="text-3xl font-bold italic text-white text-center px-6 py-2 mt-4 rounded-md" v-bind:style="MColor"
+          v-text="`X` + PresentMultiple"
+          style="text-shadow: 0px 0px 6px rgba(255, 255, 255, 1), 0px 0px 12px rgba(255, 255, 255, 0.8), 4px 4px 8px rgba(0, 0, 0, 0.7);">
+        </h2>
+
+        <!-- Volume & Image Selector -->
+        <div class="absolute top-5 right-5 flex gap-4">
+          <!-- Volume Toggle -->
+          <button v-on:click="whenClicked"
+            class="w-14 h-14 flex items-center justify-center bg-gray-200 rounded-full hover:bg-gray-300 transition">
+            <img class="w-10 h-10" v-bind:src="currentVolumeIcon" />
+          </button>
+
+          <!-- Change Goose Type -->
+          <select @change="changeImage"
+            class="px-4 py-2 text-white font-semibold rounded-lg bg-green-500 hover:bg-green-600 transition cursor-pointer">
+            <option value="Goose">Goose</option>
+            <option value="BadGoose">Bad</option>
+          </select>
+        </div>
+
+        <!-- Mini Game Button (อยู่ขวาบนเหมือนเดิม) -->
+        <div class="absolute top-20 right-5">
+          <button
+            class="px-6 py-3 text-white font-semibold rounded-xl bg-indigo-500 hover:bg-indigo-600 transition-all duration-300 hover:-translate-y-1 hover:scale-110"
+            @click="openMiniGameModal">
+            Mini Game
+          </button>
+        </div>
+
+        <!-- Modal -->
+        <div v-if="isOpen" class="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50"
+          @click.self="closeMiniGameModal">
+          <div class="bg-white max-w-md w-full rounded-lg overflow-hidden">
+            <!-- Modal Header -->
+            <div class="p-4 flex justify-between items-center bg-gray-100 border-b">
+              <h2 class="text-lg font-semibold">Mini Game</h2>
               <button @click="closeMiniGameModal"
-                class="fond-bold text-3xl cursor-pointer transition-transform duration-0.2">&times;</button>
+                class="text-2xl font-bold text-gray-600 hover:text-red-500 transition">
+                &times;
+              </button>
             </div>
-            <!-- modal body -->
-            <div class="p-4 px-4 flex justify-center">
-              <!-- Math Quiz Button -->
-              <div class="grid grid-flow-col mt-15 justify-center gap-12">
-                <button @click="MinigameMath" class="cursor-pointer"><img src="./assets/testModalPic/herta1.jpg"
-                    class="w-100 h-auto border-2 border-transparent rounded-lg transition-transform duration-300 hover:scale-110 hover:border-red-500 border-5">
-                </button>
-                <button @click="newGuessingQuestion" class="cursor-pointer"><img src="./assets/testModalPic/herta2.jpg"
-                    class="w-100 h-auto border-2 border-transparent rounded-lg transition-transform duration-300 hover:scale-110 hover:border-red-500 border-5">
-                </button>
-                <button @click="openMiniGame3" class="cursor-pointer"><img src="./assets/testModalPic/herta3.jpg"
-                    class="w-100 h-auto border-2 border-transparent rounded-lg transition-transform duration-300 hover:scale-110 hover:border-red-500 border-5">
-                </button>
+            <!-- Modal Body -->
+            <div class="p-6 flex flex-col items-center">
+              <div class="grid grid-cols-3 gap-4">
+                <!-- Number Quiz Game -->
+                <div class="flex flex-col items-center">
+                  <button @click="MinigameMath">
+                    <img src="./assets/testModalPic/herta1.jpg"
+                      class="w-24 h-24 object-cover rounded-lg shadow-md hover:shadow-xl transition-transform duration-300 hover:scale-105">
+                  </button>
+                  <p class="text-center text-sm text-gray-700 font-medium mt-2">Number Quiz</p>
+                  <p class="text-center text-xs text-gray-500">ตอบตัวเลขให้ถูกต้อง</p>
+                </div>
+
+                <!-- Guessing from Pictures Game -->
+                <div class="flex flex-col items-center">
+                  <button @click="newGuessingQuestion">
+                    <img src="./assets/testModalPic/herta2.jpg"
+                      class="w-24 h-24 object-cover rounded-lg shadow-md hover:shadow-xl transition-transform duration-300 hover:scale-105">
+                  </button>
+                  <p class="text-center text-sm text-gray-700 font-medium mt-2">Guessing from Pic</p>
+                  <p class="text-center text-xs text-gray-500">ทายคำจากภาพ</p>
+                </div>
+
+                <!-- Unit Converter Game -->
+                <div class="flex flex-col items-center">
+                  <button @click="openMiniGame3">
+                    <img src="./assets/testModalPic/herta3.jpg"
+                      class="w-24 h-24 object-cover rounded-lg shadow-md hover:shadow-xl transition-transform duration-300 hover:scale-105">
+                  </button>
+                  <p class="text-center text-sm text-gray-700 font-medium mt-2">Unit Converter</p>
+                  <p class="text-center text-xs text-gray-500">แปลงหน่วยให้ถูกต้อง</p>
+                </div>
               </div>
             </div>
           </div>
-          <div class="fixed top-0 left-0 bottom-0 right-0 pointer-events-none"></div>
         </div>
+        <div class="fixed top-0 left-0 bottom-0 right-0 pointer-events-none"></div>
       </div>
     </div>
 
@@ -506,30 +543,35 @@ const closeCongratPlayerWin = () => {
             v-model.numbers="InputNumber">
           <p class="mb-4 justify-center">- Answer Within 30 Second</p>
         </div>
-        </div>
       </div>
     </div>
-    
-    <!-- GuessingGame UI -->
+  </div>
+
+  <!-- GuessingGame UI -->
   <div>
-    <div v-bind:style="displayMiniG2" class="flex items-center justify-center min-h-screen bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 m-0">
+    <div v-bind:style="displayMiniG2"
+      class="flex items-center justify-center min-h-screen bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 m-0">
       <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-xl">
         <h1 class="text-3xl font-extrabold text-center text-gray-800 mb-6">Guessing from Pictures</h1>
-      <div class="flex justify-center gap-4 mb-6">
-        <img :src="randomQuestion.image1" alt="question img1" class="w-48 h-48 object-cover rounded-lg shadow-lg">
-        <img :src="randomQuestion.image2" alt="question img2" class="w-48 h-48 object-cover rounded-lg shadow-lg">
+        <div class="flex justify-center gap-4 mb-6">
+          <img :src="randomQuestion.image1" alt="question img1" class="w-48 h-48 object-cover rounded-lg shadow-lg">
+          <img :src="randomQuestion.image2" alt="question img2" class="w-48 h-48 object-cover rounded-lg shadow-lg">
+        </div>
+        <p class="text-lg font-semibold text-gray-700 mb-4 text-center">Enter your answer below:</p>
+        <input v-model="YourAnswer" type="text"
+          class="border border-gray-300 rounded-lg w-full py-3 px-4 mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          placeholder="Your answer">
+        <div class="flex gap-4 justify-center">
+          <button
+            class="px-6 py-3 text-white font-semibold rounded-full bg-green-500 hover:bg-green-600 transition duration-300 ease-in-out transform hover:scale-105"
+            @click="checkGuessingAns">Submit</button>
+          <button
+            class="px-6 py-3 text-white font-semibold rounded-full bg-blue-500 hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105"
+            @click="newGuessingQuestion">New Question</button>
+        </div>
+        <p :class="messageClass">{{ message }}</p>
       </div>
-    <p class="text-lg font-semibold text-gray-700 mb-4 text-center">Enter your answer below:</p>
-    <input v-model="YourAnswer" type="text" class="border border-gray-300 rounded-lg w-full py-3 px-4 mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Your answer">
-    <div class="flex gap-4 justify-center">
-      <button class="px-6 py-3 text-white font-semibold rounded-full bg-green-500 hover:bg-green-600 transition duration-300 ease-in-out transform hover:scale-105"
-        @click="checkGuessingAns">Submit</button>
-      <button class="px-6 py-3 text-white font-semibold rounded-full bg-blue-500 hover:bg-blue-600 transition duration-300 ease-in-out transform hover:scale-105"
-        @click="newGuessingQuestion">New Question</button>
     </div>
-    <p :class="messageClass">{{ message }}</p>
-  </div>
-</div>
 
     <!-- Minigame3 (Poom) of PushGoose  -->
     <div v-if="minigame3On === true"
