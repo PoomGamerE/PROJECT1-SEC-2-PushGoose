@@ -130,19 +130,18 @@ let display2show = "display:none"
 let math1 = 0
 let math2 = 0
 let mathsum = 0
-let mathran = Math.ceil(Math.random() * 20);
 let mathran2 = Math.ceil(Math.random() * 4);
 let MathOperation = "+"
 let InputNumber = ref(0)
 let Timeouts = []
+
 function MinigameMath() {
     isOpen.value = false
     displayshow = "display:none"
     display2show = "display:block"
     math1 = 0
     math2 = 0
-    mathran = Math.ceil(Math.random() * 10);
-    mathran2 = Math.ceil(Math.random() * 4)
+    mathran2 = Math.ceil(Math.random() * 3)
     do {
       math1 = Math.ceil(Math.random() * 10000) + 1;
       math2 = Math.ceil(Math.random() * 10000) + 1;
@@ -156,15 +155,22 @@ function MinigameMath() {
       mathsum = math1 - math2
     }
     if (mathran2 === 2) {
-      MathOperation = "x"
+      MathOperation = "×"
       mathsum = math1 * math2
     }
-    if (mathran2 === 3) {
-      MathOperation = "÷"
-      mathsum = (math1 / math2).toFixed(2)
-    }
+    if(Timeouts.length===0 && mathsum!==0 && mathsum!==undefined && mathsum!==null){
     let Timeout = setTimeout(LosingMinigame, 30000)
     Timeouts.push(Timeout)
+    } else { // ดักเผื่อ timeout ซ้อนกัน และกันไม่มีตัวเลขเมื่อกดเล่น minigame
+      InputNumber.value = 0
+      math1 = 0
+      math2 = 0
+      displayshow = "display:block"
+      display2show = "display:none"
+      Timeouts.forEach(id => clearTimeout(id)); 
+      Timeouts = []
+      MinigameMath()
+    }
   }
 
   
@@ -172,7 +178,7 @@ function MinigameMath() {
   if (InputNumber.value==mathsum) {
     let newscore = score_count.value + (Math.floor(score_count.value / 10))
     setScore(newscore)
-    Timeouts.forEach(id => clearTimeout(id)); // ใช้อันนี้เพราะหาวิธีแก้Timeoutไม่ได้เลยลบให้หมดเลย ใช้clearTimeoutปกติไม่ได้
+    Timeouts.forEach(id => clearTimeout(id)); // ใช้อันนี้เพราะหาวิธีแก้Timeoutไม่ได้เลยลบให้หมดเลย ใช้clearTimeoutปกติไม่ได้(ไม่รู้ทำไมเหมือนกัน)
     Timeouts = []
     MathcongratPlayerWin()
     InputNumber.value = 0
@@ -478,7 +484,7 @@ const closeCongratPlayerWin = () => {
           <input type="number" id="answer" class="border rounded w-full py-2 px-3 mb-4" placeholder="Your answer"
             v-model.numbers="InputNumber">
           <p class="mb-4 justify-center">- Answer Within 30 Second</p>
-          <p class="mb-2 justify-center">- If Operation is divide. Answer With Two Decimal Place </p>
+          
         </div>
 
         
