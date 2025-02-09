@@ -9,9 +9,9 @@ const goose_mouth_image_close = ref('./gooseImages/goose_mouth_close.png');
 //Change img zone
 const changeImage = (event) => {
   if (event.target.value==="BadGoose") {
-    changeImagegoose()
+    changeImagegooseBadGoose()
   } else if (event.target.value === "Goose")
-    changeImagegoose1()
+  changeImagegoose()
   }
 
 const mouthclose = () => {
@@ -22,55 +22,55 @@ const mouthopen = () => {
   goose_mouth_image.value = goose_mouth_image_open.value
 }
 
-// เปลี่ยนภาพไปเซ็ตแบบที่1
-const changeImagegoose = () => {
-  score_from_browser = score_count.value
-  goose_mouth_image_close.value = "./gooseImages/goose_mouth_close1.png";
-  goose_mouth_image_open.value = "./gooseImages/goose_mouth_open1.png";
+// เปลี่ยนภาพไปเซ็ตเป็นแบบBadGoose
+const changeImagegooseBadGoose = () => {
+  score_from_browser_BadGoose = Number(localStorage.getItem('scoreBadGoose')) || 0
+  score_count.value = score_from_browser_BadGoose
+  goose_mouth_image_close.value = "./gooseImages/goose_mouth_close_BadGoose.png";
+  goose_mouth_image_open.value = "./gooseImages/goose_mouth_open_BadGoose.png";
   goose_mouth_image.value = goose_mouth_image_close.value
-  score_count.value = score_from_browser1
   changeBackgroundBadGoose()
 }
 
 // เปลี่ยนภาพกลับไปเซ็ตแบบปกติ
-const changeImagegoose1 = () => {
-  score_from_browser1 = score_count.value
+const changeImagegoose = () => {
+  score_from_browser_Goose = Number(localStorage.getItem('scoreGoose')) || 0
+  score_count.value = score_from_browser_Goose
   goose_mouth_image_close.value = "./gooseImages/goose_mouth_close.png";
   goose_mouth_image_open.value = "./gooseImages/goose_mouth_open.png";
   goose_mouth_image.value = goose_mouth_image_close.value
-  score_count.value = score_from_browser
   changeBackgroundGoose()
 }
 //score zone
 // คะแนนgooseแบบปกติ
-let score_from_browser = localStorage.getItem('score')
-if (score_from_browser === null) {
-  localStorage.setItem('score', 0)
-  score_from_browser = 0
+let score_from_browser_Goose = localStorage.getItem('scoreGoose')
+if (score_from_browser_Goose === null) {
+  localStorage.setItem('scoreGoose', 0)
+  score_from_browser_Goose = 0
 }
 else {
-  score_from_browser = Number.parseInt(score_from_browser)
+  score_from_browser_Goose = Number.parseInt(score_from_browser_Goose)
 }
-// คะแนนgooseแบบที่1
-let score_from_browser1 = localStorage.getItem('score1')
-if (score_from_browser1 === null) {
-  localStorage.setItem('score1', 0)
-  score_from_browser1 = 0
+// คะแนนgooseแบบที่เป็นBadGoose
+let score_from_browser_BadGoose = localStorage.getItem('scoreBadGoose')
+if (score_from_browser_BadGoose === null) {
+  localStorage.setItem('scoreBadGoose', 0)
+  score_from_browser_BadGoose = 0
 }
 else {
-  score_from_browser1 = Number.parseInt(score_from_browser1)
+  score_from_browser_BadGoose = Number.parseInt(score_from_browser_BadGoose)
 }
-const score_count = ref(score_from_browser) //reactive variable
+const score_count = ref(score_from_browser_Goose) //reactive variable
 const old_score = ref(0)
 
 function setScore(score) {
   old_score.value = score_count.value
   score_count.value = score
-  if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.png" ||
+  if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.png" &&
     goose_mouth_image_open.value === "./gooseImages/goose_mouth_open.png") {
-    localStorage.setItem('score', score)
+    localStorage.setItem('scoreGoose', score)
   } else {
-    localStorage.setItem('score1', score)
+    localStorage.setItem('scoreBadGoose', score)
   }
 }
 
@@ -80,7 +80,7 @@ let PresentMultiple = ref(1)
 let MColor = "color:black"
 
 const increaseCount = () => {
-  if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.png"||
+  if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.png"&&
   goose_mouth_image_open.value ==="./gooseImages/goose_mouth_open.png") {
     setScore(score_count.value + (1 * PresentMultiple.value))
   } else {
