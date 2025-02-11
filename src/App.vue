@@ -217,7 +217,7 @@ let randomQuestion = ref(randomGuesingQ())
 let YourAnswer = ref('')
 let message = ref('')
 let messageClass = ref('')
-let displayMiniG2 = "display:none"
+let displayMiniG2 = false
 
 function checkGuessingAns() {
   if (YourAnswer.value.trim() === randomQuestion.value.answer) {
@@ -230,18 +230,15 @@ function checkGuessingAns() {
   } else {
     let newScoreMN2 = score_count.value - (Math.floor(score_count.value / 5))
     setScore(newScoreMN2)
-    setTimeout(() => {
-      message.value = 'Wrong!!!! Let’s try again'
-      messageClass.value = 'text-red-600 mt-8 text-center font-bold'
-      displayMiniG2 = "display:none"
-      displayshow = "display:block"
-    }, 2000);
+    message.value = 'Wrong!!!! Let’s try again'
+    messageClass.value = 'text-red-600 mt-8 text-center font-bold'
+    setTimeout(closeMiniG2Lose,2000)
   }
 }
 
 function newGuessingQuestion() {
   isMiniGameModalOpen.value = false
-  displayMiniG2 = "display:flex"
+  displayMiniG2 = true
   displayshow = false
   randomQuestion.value = randomGuesingQ()
   YourAnswer.value = ''
@@ -425,14 +422,17 @@ const congratPlayerWin = () => {
   setTimeout(closeCongratPlayerWin, 2000)
 }
 const congratMiniG2PlayerWin = () => {
-  displayMiniG2 = "display:none"
+  displayMiniG2 = false
   minigameWin.value = true
   setTimeout(closeCongratPlayerWin, 2000)
 }
-
 const MathcongratPlayerWin = () => {
   minigameWin.value = true
   setTimeout(closeCongratPlayerWin, 2000)
+}
+const closeMiniG2Lose = () => {
+  displayshow = true
+  displayMiniG2 = false
 }
 const closeCongratPlayerWin = () => {
   displayshow = true
@@ -668,7 +668,7 @@ changeBackground()
 
   <!-- GuessingGame UI -->
   <div>
-    <div v-bind:style="displayMiniG2"
+    <div v-if="displayMiniG2"
       class="flex items-center justify-center min-h-screen bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 m-0">
       <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-xl">
         <h1 class="text-3xl font-extrabold text-center text-gray-800 mb-6">Guessing from Pictures</h1>
@@ -676,7 +676,7 @@ changeBackground()
           <img :src="randomQuestion.image1" alt="question img1" class="w-48 h-48 object-cover rounded-lg shadow-lg">
           <img :src="randomQuestion.image2" alt="question img2" class="w-48 h-48 object-cover rounded-lg shadow-lg">
         </div>
-        <p class="text-lg font-semibold text-gray-700 mb-4 text-center">Enter your answer below:</p>
+        <p class="text-lg font-semibold text-gray-700 mb-4 text-center">Enter your answer in thai :</p>
         <input v-model="YourAnswer" type="text"
           class="border border-gray-300 rounded-lg w-full py-3 px-4 mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Your answer">
