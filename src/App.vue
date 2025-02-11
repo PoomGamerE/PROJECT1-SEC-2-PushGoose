@@ -125,8 +125,8 @@ function RandomMultiple() {
 }
 
 //Random Event (+ - x ÷)
-let displayshow = "display:block"
-let display2show = "display:none"
+let displayshow = true
+let display2show = false
 let math1 = 0
 let math2 = 0
 let mathsum = 0
@@ -137,15 +137,13 @@ let Timeouts = []
 
 function MinigameMath() {
   isOpen.value = false
-  displayshow = "display:none"
-  display2show = "display:block"
+  displayshow = false
+  display2show = true
   math1 = 0
   math2 = 0
   mathran2 = Math.ceil(Math.random() * 3)
-  do {
-    math1 = Math.ceil(Math.random() * 10000) + 1;
-    math2 = Math.ceil(Math.random() * 10000) + 1;
-  } while (math1 < math2)
+  math1 = Math.ceil(Math.random() * 10000) + 3000;
+  math2 = Math.ceil(Math.random() * 2000) + 1000;
   if (mathran2 === 0) {
     MathOperation = "+"
     mathsum = math1 + math2
@@ -165,8 +163,8 @@ function MinigameMath() {
     InputNumber.value = 0
     math1 = 0
     math2 = 0
-    displayshow = "display:block"
-    display2show = "display:none"
+    displayshow = true
+    display2show = false
     Timeouts.forEach(id => clearTimeout(id));
     Timeouts = []
     MinigameMath()
@@ -175,32 +173,38 @@ function MinigameMath() {
 
 
 watch([InputNumber], () => {
-  if (InputNumber.value == mathsum) {
+  console.log(mathsum)
+  console.log(InputNumber.value)
+  if (InputNumber.value == mathsum && InputNumber.value!==0) {
     let newscore = score_count.value + (Math.floor(score_count.value / 10))
     setScore(newscore)
-    Timeouts.forEach(id => clearTimeout(id)); // ใช้อันนี้เพราะหาวิธีแก้Timeoutไม่ได้เลยลบให้หมดเลย ใช้clearTimeoutปกติไม่ได้(ไม่รู้ทำไมเหมือนกัน)
+    Timeouts.forEach(id => clearTimeout(id)) // ใช้อันนี้เพราะหาวิธีแก้Timeoutไม่ได้เลยลบให้หมดเลย ใช้clearTimeoutปกติไม่ได้(ไม่รู้ทำไมเหมือนกัน)
     Timeouts = []
     MathcongratPlayerWin()
     InputNumber.value = 0
     math1 = 0
     math2 = 0
-    displayshow = "display:block"
-    display2show = "display:none"
+    mathsum = 0
+    displayshow = true
+    display2show = false
   }
 })
 
 
 function LosingMinigame() {
+  if(mathsum!==0){
   let newscore = Math.floor(score_count.value / 2)
   setScore(newscore)
-  Timeouts.forEach(id => clearTimeout(id));
+  Timeouts.forEach(id => clearTimeout(id))
   Timeouts = []
   MathcongratPlayerWin()
   math1 = 0
   math2 = 0
+  mathsum = 0
   InputNumber.value = 0
-  displayshow = "display:block"
-  display2show = "display:none"
+  displayshow = true
+  display2show = false
+  }
 }
 
 
@@ -240,7 +244,7 @@ function checkGuessingAns() {
 function newGuessingQuestion() {
   isOpen.value = false
   displayMiniG2 = "display:flex"
-  displayshow = "display:none"
+  displayshow = false
   randomQuestion.value = randomGuesingQ()
   YourAnswer.value = ''
   message.value = ''
@@ -411,7 +415,7 @@ const MathcongratPlayerWin = () => {
   setTimeout(closeCongratPlayerWin, 2000)
 }
 const closeCongratPlayerWin = () => {
-  displayshow = "display:block"
+  displayshow = true
   minigameWin.value = false
 }
 
@@ -420,7 +424,7 @@ const closeCongratPlayerWin = () => {
 <template>
   <div>
     <!-- Main Page of PushGoose -->
-    <div v-bind:style="displayshow" v-if="minigame3On !== true && minigameWin !== true"
+    <div v-if="minigame3On !== true && minigameWin !== true && displayshow"
       class="overflow-hidden h-screen">
       <div v-bind:style="{ backgroundImage: `url(${background})` }"
         class="bg-no-repeat bg-cover flex flex-col items-center justify-center h-screen p-4">
@@ -531,14 +535,12 @@ const closeCongratPlayerWin = () => {
 
     <!-- Minigame of PushGoose  -->
     <!-- MathGame UI -->
-    <div v-bind:style="display2show">
+    <div v-if="display2show">
       <div class="flex items-center justify-center min-h-screen bg-gray-100 m-0">
         <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
           <h1 class="text-2xl font-bold mb-4">Number Quiz Game</h1>
           <p class="mb-4">Enter the result of the operation:</p>
-          <div id="question" class="text-lg font-semibold mb-4">{{ math1 }} {{ MathOperation }} {{ math2 }} = {{
-            InputNumber
-          }}</div>
+          <div id="question" class="text-lg font-semibold mb-4">{{ math1 }} {{ MathOperation }} {{ math2 }} = ?</div>
           <input type="number" id="answer" class="border rounded w-full py-2 px-3 mb-4" placeholder="Your answer"
             v-model.numbers="InputNumber">
           <p class="mb-4 justify-center">- Answer Within 30 Second</p>
