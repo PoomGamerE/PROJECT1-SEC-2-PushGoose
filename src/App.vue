@@ -2,9 +2,9 @@
 import { ref, watch } from 'vue'
 
 //goose img zone
-const goose_mouth_image = ref('./gooseImages/goose_mouth_close.png')
 const goose_mouth_image_open = ref('./gooseImages/goose_mouth_open.png');
 const goose_mouth_image_close = ref('./gooseImages/goose_mouth_close.png');
+const goose_mouth_image = ref(goose_mouth_image_close.value)
 
 //Change img zone
 const changeImage = (event) => {
@@ -173,8 +173,6 @@ function MinigameMath() {
 
 
 watch([InputNumber], () => {
-  console.log(mathsum)
-  console.log(InputNumber.value)
   if (InputNumber.value == mathsum && InputNumber.value!==0) {
     let newscore = score_count.value + (Math.floor(score_count.value / 10))
     setScore(newscore)
@@ -441,7 +439,7 @@ const closeCongratPlayerWin = () => {
   minigameWin.value = false
 }
 
-
+changeBackground()
 </script>
 
 <template>
