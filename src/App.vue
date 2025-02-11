@@ -1,6 +1,18 @@
 <script setup>
 import { ref, watch } from 'vue'
 
+//Sound
+const volumeOn = './volumeOn_Off/volume_on.png' //volume-on.png
+const volumeOff = './volumeOn_Off/volume_off.png' //volume-off.png
+const currentVolumeIcon = ref(volumeOn) //reactive variable
+
+const whenClicked = () => {
+  currentVolumeIcon.value =
+    currentVolumeIcon.value === volumeOn ? volumeOff : volumeOn;
+  // if the currentVolumeIcon.value = volumeOn is TRUE the value is going to be volumeOff
+  // if not it's volumeOn
+}
+
 //goose img zone
 const goose_mouth_image_open = ref('./gooseImages/goose_mouth_open.png');
 const goose_mouth_image_close = ref('./gooseImages/goose_mouth_close.png');
@@ -89,17 +101,6 @@ const increaseCount = () => {
 
 }
 
-const volumeOn = './volumeOn_Off/volume_on.png' //volume-on.png
-const volumeOff = './volumeOn_Off/volume_off.png' //volume-off.png
-const currentVolumeIcon = ref(volumeOn) //reactive variable
-
-const whenClicked = () => {
-  currentVolumeIcon.value =
-    currentVolumeIcon.value === volumeOn ? volumeOff : volumeOn;
-  // if the currentVolumeIcon.value = volumeOn is TRUE the value is going to be volumeOff
-  // if not it's volumeOn
-}
-
 //Random Multiple 
 function RandomMultiple() {
   nclick++ //นับว่าคลิกไปกี่ครั้งแล้วหลังจากไม่ได้ตัวคูณ
@@ -130,12 +131,13 @@ let display2show = false
 let math1 = 0
 let math2 = 0
 let mathsum = 0
-let mathran2 = Math.ceil(Math.random() * 4);
+let mathran2 = Math.ceil(Math.random() * 3);
 let MathOperation = "+"
 let InputNumber = ref(0)
 let Timeouts = []
 
 function MinigameMath() {
+  InputNumber.value = ""
   displayshow = false
   display2show = true
   isMiniGameModalOpen.value = false
@@ -173,7 +175,7 @@ function MinigameMath() {
 
 
 watch([InputNumber], () => {
-  if (InputNumber.value == mathsum && InputNumber.value!==0) {
+  if (InputNumber.value == mathsum && InputNumber.value !== 0) {
     let newscore = score_count.value + (Math.floor(score_count.value / 10))
     setScore(newscore)
     Timeouts.forEach(id => clearTimeout(id)) // ใช้อันนี้เพราะหาวิธีแก้Timeoutไม่ได้เลยลบให้หมดเลย ใช้clearTimeoutปกติไม่ได้(ไม่รู้ทำไมเหมือนกัน)
@@ -190,29 +192,29 @@ watch([InputNumber], () => {
 
 
 function LosingMinigame() {
-  if(mathsum!==0){
-  let newscore = Math.floor(score_count.value / 2)
-  setScore(newscore)
-  Timeouts.forEach(id => clearTimeout(id))
-  Timeouts = []
-  MathcongratPlayerWin()
-  math1 = 0
-  math2 = 0
-  mathsum = 0
-  InputNumber.value = 0
-  displayshow = true
-  display2show = false
+  if (mathsum !== 0) {
+    let newscore = Math.floor(score_count.value / 2)
+    setScore(newscore)
+    Timeouts.forEach(id => clearTimeout(id))
+    Timeouts = []
+    MathcongratPlayerWin()
+    math1 = 0
+    math2 = 0
+    mathsum = 0
+    InputNumber.value = 0
+    displayshow = true
+    display2show = false
   }
 }
 
 
 //Guessing game from pictures game
-const guessingQuestion = ref([
+const guessingQuestion = [
   { image1: './guessinggame/เย็น.png', image2: './guessinggame/สี่ตา.jpg', answer: 'เย็นตาโฟ' },
   { image1: './guessinggame/ลิ้น.jpg', image2: './guessinggame/ข้าวจี่่.jpg', answer: 'ลิ้นจี่' },
   { image1: './guessinggame/โล.jpg', image2: './guessinggame/ตี.jpg', answer: 'โรตี' },
   { image1: './guessinggame/กุ้ง.jpg', image2: './guessinggame/เต้น.jpg', answer: 'กุ้งเต้น' }
-])
+]
 let randomQuestion = ref(randomGuesingQ())
 let YourAnswer = ref('')
 let message = ref('')
@@ -232,7 +234,7 @@ function checkGuessingAns() {
     setScore(newScoreMN2)
     message.value = 'Wrong!!!! Let’s try again'
     messageClass.value = 'text-red-600 mt-8 text-center font-bold'
-    setTimeout(closeMiniG2Lose,2000)
+    setTimeout(closeMiniG2Lose, 2000)
   }
 }
 
@@ -246,7 +248,7 @@ function newGuessingQuestion() {
   messageClass.value = ''
 }
 function randomGuesingQ() {
-  return guessingQuestion.value[Math.floor(Math.random() * guessingQuestion.value.length)]
+  return guessingQuestion[Math.floor(Math.random() * guessingQuestion.length)]
 }
 
 
@@ -330,13 +332,13 @@ const closeTutorialModal = () => {
 }
 
 const nextTutorial = () => {
-  if(currentTutorialPage.value < totalTutorialPages) {
+  if (currentTutorialPage.value < totalTutorialPages) {
     currentTutorialPage.value++
   }
 }
 
 const prevTutorial = () => {
-  if(currentTutorialPage.value > 1) {
+  if (currentTutorialPage.value > 1) {
     currentTutorialPage.value--
   }
 }
@@ -379,6 +381,7 @@ function getRandomIntMultipleOf60(min, max) {
 }
 
 function randomQuestionOfGame3() {
+  userAnswer.value = ""
   unitNameBefore.value = (getRandomIntInclusive(1, 2) === 1) ? 'Hour' : 'Minute';
   unitNameAfter.value = (unitNameBefore.value === 'Minute') ? 'Hour' : 'Minute';
   if (unitNameBefore.value === 'Hour') {
@@ -445,8 +448,7 @@ changeBackground()
 <template>
   <div>
     <!-- Main Page of PushGoose -->
-    <div v-if="minigame3On !== true && minigameWin !== true && displayshow"
-      class="overflow-hidden h-screen">
+    <div v-if="minigame3On !== true && minigameWin !== true && displayshow" class="overflow-hidden h-screen">
       <div v-bind:style="{ backgroundImage: `url(${background})` }"
         class="bg-no-repeat bg-cover flex flex-col items-center justify-center h-screen p-4">
         <!-- Title with Text Outline (ปรับสีให้สวยงามและรองรับพื้นหลัง) -->
@@ -495,8 +497,7 @@ changeBackground()
 
         <!-- Mini Game Button (อยู่ขวาบนเหมือนเดิม) -->
         <div class="absolute top-21 right-5">
-          <button
-            class="px-6 py-3 text-white font-semibold rounded-xl bg-indigo-500 hover:bg-indigo-600 
+          <button class="px-6 py-3 text-white font-semibold rounded-xl bg-indigo-500 hover:bg-indigo-600 
             transition-all duration-300 hover:-translate-y-1 hover:scale-110 cursor-pointer"
             @click="openMiniGameModal">
             Mini Game
@@ -504,9 +505,10 @@ changeBackground()
         </div>
 
         <!-- Mini Game Modal -->
-        <div v-if="isMiniGameModalOpen" class="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50"
+        <div v-if="isMiniGameModalOpen"
+          class="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50"
           @click.self="closeMiniGameModal">
-          <div class="bg-white max-w-md w-full rounded-lg overflow-hidden">
+          <div class="bg-white max-w-md sm:max-w-lg w-full rounded-lg overflow-hidden">
             <!-- Mini Game Modal Header -->
             <div class="p-4 flex justify-between items-center bg-gray-100 border-b">
               <h2 class="text-lg font-semibold">Mini Game</h2>
@@ -517,7 +519,7 @@ changeBackground()
             </div>
             <!-- Mini Game Modal Body -->
             <div class="p-6 flex flex-col items-center">
-              <div class="grid grid-cols-3 gap-4">
+              <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <!-- Number Quiz Game -->
                 <div class="flex flex-col items-center">
                   <button @click="MinigameMath">
@@ -547,105 +549,107 @@ changeBackground()
                   <p class="text-center text-sm text-gray-700 font-medium mt-2">Unit Converter</p>
                   <p class="text-center text-xs text-gray-500">แปลงหน่วยให้ถูกต้อง</p>
                 </div>
+
+                <!-- New Mini Game -->
+                <div class="flex flex-col items-center">
+                  <button @click="openMiniGame4">
+                    <img src="./assets/miniGamePic/newMiniGame.jpg"
+                      class="w-24 h-24 object-cover rounded-lg shadow-md hover:shadow-xl transition-transform duration-300 hover:scale-105 cursor-pointer">
+                  </button>
+                  <p class="text-center text-sm text-gray-700 font-medium mt-2">New Mini Game</p>
+                  <p class="text-center text-xs text-gray-500">รายละเอียดเกมใหม่</p>
+                </div>
               </div>
             </div>
           </div>
         </div>
+
         <div class="fixed top-0 left-0 bottom-0 right-0 pointer-events-none"></div>
         <!-- Tutorial Button -->
         <div class="absolute top-35 right-5">
-          <button
-            class="px-6 py-3 text-white font-semibold rounded-xl bg-indigo-500 hover:bg-indigo-600 
+          <button class="px-6 py-3 text-white font-semibold rounded-xl bg-indigo-500 hover:bg-indigo-600 
             transition-all duration-300 hover:-translate-y-1 hover:scale-110 cursor-pointer"
-            @click="openTutorialModal"
-          >
-          How To Play
+            @click="openTutorialModal">
+            How To Play
           </button>
         </div>
 
         <!-- Backdrop (blurred background) -->
-        <div v-if="currentTutorialPage > 0" 
-        class="fixed top-0 left-0 w-full h-full backdrop-blur-sm pointer-events-auto z-10"
-        @click="closeTutorialModal">
+        <div v-if="currentTutorialPage > 0" class="fixed inset-0 backdrop-blur-sm pointer-events-auto z-10"
+          @click="closeTutorialModal">
         </div>
 
         <!-- Tutorial Modal -->
-        <div v-if="currentTutorialPage > 0">   
-          <div 
-            class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
-          border-black border rounded-lg z-10 bg-orange-100 w-lg max-w-lg"
-            @click.stop>
-    
+        <div v-if="currentTutorialPage > 0">
+          <div class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2
+    border border-black rounded-lg z-10 bg-orange-100 max-w-sm sm:max-w-lg w-full p-4 sm:p-6" @click.stop>
+
             <!-- Page 1 -->
             <div v-if="currentTutorialPage === 1">
-              <div class="p-4 px-4 flex justify-between items-center border-black border-b text-xl font-bold">
-                <div class="text-xl font-bold">#1 What is the purpose of this game?</div>
-                  <button class="text-2xl font-bold text-gray-600 hover:text-red-500 transition cursor-pointer" @click="closeTutorialModal">&times;</button>
+              <div class="flex justify-between items-center border-b border-black pb-2 text-lg sm:text-xl font-bold">
+                <div>#1 What is the purpose of this game?</div>
+                <button class="text-2xl font-bold text-gray-600 hover:text-red-500 transition cursor-pointer"
+                  @click="closeTutorialModal">&times;</button>
               </div>
-            <div class="p-4 px-4">
-              <p>If you click on the goose you will get points and sometimes the points will be randomly multiplied.</p>
-            </div>
-            <div class="p-4 px-4 flex justify-end">
-              <button @click="nextTutorial" 
-                class="cursor-pointer  rounded-md bg-green-500 hover:bg-green-600 
-                transition-all duration-300 hover:-translate-y-1 hover:scale-110 w-15 text-white"
-                >
-                Next
-              </button>  
-            </div>
-          </div>
-
-          <!-- Page 2 -->
-          <div v-if="currentTutorialPage === 2">
-            <div class="p-4 px-4 flex justify-between items-center border-black border-b text-xl font-bold">
-              <div class="text-xl font-bold">#2 Change Goose</div>
-                <button class="text-2xl font-bold text-gray-600 hover:text-red-500 transition cursor-pointer" @click="closeTutorialModal">&times;</button>
+              <div class="mt-3">
+                <p>If you click on the goose, you will get points, and sometimes the points will be randomly multiplied.
+                </p>
               </div>
-            <div class="p-4 px-4">
-              <p>You can change it to a bad goose, but it will cost different points than the good goose and the points will be negative instead.</p>
+              <div class="flex justify-end mt-4">
+                <button @click="nextTutorial" class="cursor-pointer rounded-md bg-green-500 hover:bg-green-600 
+          transition-all duration-300 hover:-translate-y-1 hover:scale-110 text-white px-4 py-2 w-full sm:w-auto">
+                  Next
+                </button>
+              </div>
             </div>
-          <div class="p-4 px-4 flex justify-between">
-            <button @click="prevTutorial" 
-                class="cursor-pointer  rounded-md bg-red-500 hover:bg-red-600 
-                transition-all duration-300 hover:-translate-y-1 hover:scale-110 w-15 text-white"
-                >
-                Back
-            </button>
-            <button @click="nextTutorial" 
-                class="cursor-pointer  rounded-md bg-green-500 hover:bg-green-600 
-                transition-all duration-300 hover:-translate-y-1 hover:scale-110 w-15 text-white"
-                >
-                Next
-            </button>
-          </div>
-        </div>
 
-        <!-- Page 3 -->
-        <div v-if="currentTutorialPage === 3">
-          <div class="p-4 px-4 flex justify-between items-center border-black border-b text-xl font-bold">
-            <div class="text-xl font-bold">#3 What is Mini Game?</div>
-              <button class="text-2xl font-bold text-gray-600 hover:text-red-500 transition cursor-pointer" @click="closeTutorialModal">&times;</button>
+            <!-- Page 2 -->
+            <div v-if="currentTutorialPage === 2">
+              <div class="flex justify-between items-center border-b border-black pb-2 text-lg sm:text-xl font-bold">
+                <div>#2 Change Goose</div>
+                <button class="text-2xl font-bold text-gray-600 hover:text-red-500 transition cursor-pointer"
+                  @click="closeTutorialModal">&times;</button>
+              </div>
+              <div class="mt-3">
+                <p>You can change it to a bad goose, but it will cost different points than the good goose, and the
+                  points will be negative instead.</p>
+              </div>
+              <div class="flex justify-between mt-4">
+                <button @click="prevTutorial" class="cursor-pointer rounded-md bg-red-500 hover:bg-red-600 
+          transition-all duration-300 hover:-translate-y-1 hover:scale-110 text-white px-4 py-2 w-full sm:w-auto">
+                  Back
+                </button>
+                <button @click="nextTutorial" class="cursor-pointer rounded-md bg-green-500 hover:bg-green-600 
+          transition-all duration-300 hover:-translate-y-1 hover:scale-110 text-white px-4 py-2 w-full sm:w-auto">
+                  Next
+                </button>
+              </div>
             </div>
-            <div class="p-4 px-4">
-              <p>We also have mini games. The first game we have is a Number Quiz game.
-              The second game we have is a Guessing from Pic game. 
-              And the last game we have is a Unit Converter game.</p>
+
+            <!-- Page 3 -->
+            <div v-if="currentTutorialPage === 3">
+              <div class="flex justify-between items-center border-b border-black pb-2 text-lg sm:text-xl font-bold">
+                <div>#3 What is Mini Game?</div>
+                <button class="text-2xl font-bold text-gray-600 hover:text-red-500 transition cursor-pointer"
+                  @click="closeTutorialModal">&times;</button>
+              </div>
+              <div class="mt-3">
+                <p>We also have mini-games. The first game we have is a Number Quiz game.
+                  The second game we have is a Guessing from Pic game.
+                  And the last game we have is a Unit Converter game.</p>
+              </div>
+              <div class="flex justify-between mt-4">
+                <button @click="prevTutorial" class="cursor-pointer rounded-md bg-red-500 hover:bg-red-600 
+          transition-all duration-300 hover:-translate-y-1 hover:scale-110 text-white px-4 py-2 w-full sm:w-auto">
+                  Back
+                </button>
+                <button @click="closeTutorialModal" class="cursor-pointer rounded-md bg-green-500 hover:bg-green-600 
+          transition-all duration-300 hover:-translate-y-1 hover:scale-110 text-white px-4 py-2 w-full sm:w-auto">
+                  Finish
+                </button>
+              </div>
             </div>
-          <div class="p-4 px-4 flex justify-between">
-            <button @click="prevTutorial" 
-                class="cursor-pointer  rounded-md bg-red-500 hover:bg-red-600 
-                transition-all duration-300 hover:-translate-y-1 hover:scale-110 w-15 text-white"
-                >
-                Back
-            </button>
-            <button @click="closeTutorialModal" class="cursor-pointer  rounded-md bg-green-500 hover:bg-green-600 
-                transition-all duration-300 hover:-translate-y-1 hover:scale-110 w-15 text-white"
-                >
-                Finish
-            </button>
           </div>
-        </div>
-      </div>
         </div>
       </div>
     </div>
