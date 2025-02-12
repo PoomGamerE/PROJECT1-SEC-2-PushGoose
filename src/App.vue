@@ -17,6 +17,7 @@ const whenClicked = () => {
 const goose_mouth_image_open = ref('./gooseImages/goose_mouth_open.png');
 const goose_mouth_image_close = ref('./gooseImages/goose_mouth_close.png');
 const goose_mouth_image = ref(goose_mouth_image_close.value)
+const Goose =ref('Goose')
 
 //Change img zone
 const changeImage = (event) => {
@@ -41,6 +42,7 @@ const changeImagegooseBadGoose = () => {
   goose_mouth_image_close.value = "./gooseImages/goose_mouth_close_BadGoose.png";
   goose_mouth_image_open.value = "./gooseImages/goose_mouth_open_BadGoose.png";
   goose_mouth_image.value = goose_mouth_image_close.value
+  Goose.value="BadGoose"
   changeBackgroundBadGoose()
 }
 
@@ -52,6 +54,7 @@ const changeImagegoose = () => {
   goose_mouth_image_open.value = "./gooseImages/goose_mouth_open.png";
   goose_mouth_image.value = goose_mouth_image_close.value
   changeBackgroundGoose()
+  Goose.value="Goose"
 }
 //score zone
 // คะแนนgooseแบบปกติ
@@ -78,11 +81,67 @@ const old_score = ref(0)
 function setScore(score) {
   old_score.value = score_count.value
   score_count.value = score
-  if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.png" &&
-    goose_mouth_image_open.value === "./gooseImages/goose_mouth_open.png") {
+  if (Goose.value==="Goose") {
     localStorage.setItem('scoreGoose', score)
   } else {
     localStorage.setItem('scoreBadGoose', score)
+  }
+}
+
+//Change Background 
+const bgWindowXP = './backgroundImages/WindowsXp.jpg'
+const bgFlame = './backgroundImages/Fireflam.jpg'
+const bgBrain = './backgroundImages/Brain.jpg'
+const bgMountain = './backgroundImages/mountain.jpg'
+const bgSea = './backgroundImages/sea.jpg'
+const bgVolcano = './backgroundImages/volcano.jpg'
+const bgSpace = './backgroundImages/space.jpg'
+
+const background = ref(bgWindowXP) //Original Background
+
+function changeBackground() {
+  if (Goose.value==="Goose") {
+    changeBackgroundGoose()
+  } else {
+    changeBackgroundBadGoose()
+  }
+}
+
+
+
+function changeBackgroundGoose() {
+  if (score_count.value > 10000) {
+    background.value = bgBrain
+  } else if (score_count.value > 7000 ) {
+    background.value =  bgSpace
+  } else if (score_count.value > 4500 ) {
+    background.value = bgVolcano
+  } else if (score_count.value > 3000 ) {
+    background.value = bgFlame
+  } else if (score_count.value > 1500 ) {
+    background.value = bgSea
+  } else if (score_count.value > 500) {
+    background.value = bgMountain
+  } else {
+    background.value = bgWindowXP
+  }
+}
+ 
+function changeBackgroundBadGoose() {
+  if (score_count.value < -10000) {
+    background.value = bgBrain
+  } else if (score_count.value < -7000 ) {
+    background.value =  bgSpace
+  } else if (score_count.value < -4500 ) {
+    background.value = bgVolcano
+  } else if (score_count.value < -3000 ) {
+    background.value = bgFlame
+  } else if (score_count.value < -1500 ) {
+    background.value = bgSea
+  } else if (score_count.value < -500) {
+    background.value = bgMountain
+  } else {
+    background.value = bgWindowXP
   }
 }
 
@@ -92,8 +151,7 @@ let PresentMultiple = ref(1)
 let MColor = "color:black"
 
 const increaseCount = () => {
-  if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.png" &&
-    goose_mouth_image_open.value === "./gooseImages/goose_mouth_open.png") {
+  if (Goose.value==="Goose") {
     setScore(score_count.value + (1 * PresentMultiple.value))
   } else {
     setScore(score_count.value - (1 * PresentMultiple.value))
@@ -176,8 +234,7 @@ function MinigameMath() {
 
 watch([InputNumber], () => {
   if (InputNumber.value == mathsum && InputNumber.value !== 0) {
-    let newscore = score_count.value + (Math.floor(score_count.value / 10))
-    setScore(newscore)
+    AddGameScore((Math.floor(score_count.value / 10)))
     Timeouts.forEach(id => clearTimeout(id)) // ใช้อันนี้เพราะหาวิธีแก้Timeoutไม่ได้เลยลบให้หมดเลย ใช้clearTimeoutปกติไม่ได้(ไม่รู้ทำไมเหมือนกัน)
     Timeouts = []
     MathcongratPlayerWin()
@@ -193,7 +250,7 @@ watch([InputNumber], () => {
 
 function LosingMinigame() {
   if (mathsum !== 0) {
-    let newscore = Math.floor(score_count.value / 2)
+    reduceGameScore((Math.floor(score_count.value / 2)))
     setScore(newscore)
     Timeouts.forEach(id => clearTimeout(id))
     Timeouts = []
@@ -223,15 +280,13 @@ let displayMiniG2 = false
 
 function checkGuessingAns() {
   if (YourAnswer.value.trim() === randomQuestion.value.answer) {
-    let newScoreMN2 = score_count.value + (Math.floor(score_count.value / 10))
-    setScore(newScoreMN2)
+    AddGameScore((Math.floor(score_count.value / 10)))
     message.value = 'Correct!!!!'
     messageClass.value = 'text-green-600 mt-8 text-center font-bold'
     setTimeout(congratMiniG2PlayerWin, 500)
 
   } else {
-    let newScoreMN2 = score_count.value - (Math.floor(score_count.value / 5))
-    setScore(newScoreMN2)
+    reduceGameScore((Math.floor(score_count.value / 5)))
     message.value = 'Wrong!!!! Let’s try again'
     messageClass.value = 'text-red-600 mt-8 text-center font-bold'
     setTimeout(closeMiniG2Lose, 2000)
@@ -252,63 +307,6 @@ function randomGuesingQ() {
 }
 
 
-//Change Background 
-const bgWindowXP = './backgroundImages/WindowsXp.jpg'
-const bgFlame = './backgroundImages/Fireflam.jpg'
-const bgBrain = './backgroundImages/Brain.jpg'
-const bgMountain = './backgroundImages/mountain.jpg'
-const bgSea = './backgroundImages/sea.jpg'
-const bgVolcano = './backgroundImages/volcano.jpg'
-const bgSpace = './backgroundImages/space.jpg'
-
-const background = ref(bgWindowXP) //Original Background
-
-function changeBackground() {
-  if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.png" ||
-    goose_mouth_image_open.value === "./gooseImages/goose_mouth_open.png") {
-    changeBackgroundGoose()
-  } else {
-    changeBackgroundBadGoose()
-  }
-}
-
-
-
-function changeBackgroundGoose() {
-  if (score_count.value <= 500) {
-    background.value = bgWindowXP
-  } else if (score_count.value > 500 && score_count.value <= 1500) {
-    background.value = bgMountain
-  } else if (score_count.value > 1500 && score_count.value <= 3000) {
-    background.value = bgSea
-  } else if (score_count.value > 3000 && score_count.value <= 4500) {
-    background.value = bgFlame
-  } else if (score_count.value > 4500 && score_count.value <= 7000) {
-    background.value = bgVolcano
-  } else if (score_count.value > 7000 && score_count.value <= 10000) {
-    background.value = bgSpace
-  } else {
-    background.value = bgBrain
-  }
-}
-
-function changeBackgroundBadGoose() {
-  if (score_count.value >= -500) {
-    background.value = bgWindowXP
-  } else if (score_count.value < -500 && score_count.value >= -1500) {
-    background.value = bgMountain
-  } else if (score_count.value < -1500 && score_count.value >= -3000) {
-    background.value = bgSea
-  } else if (score_count.value < -3000 && score_count.value >= -4500) {
-    background.value = bgFlame
-  } else if (score_count.value < -4500 && score_count.value >= -7000) {
-    background.value = bgVolcano
-  } else if (score_count.value < -7000 && score_count.value >= -10000) {
-    background.value = bgSpace
-  } else {
-    background.value = bgBrain
-  }
-}
 
 // reactive variable
 const isMiniGameModalOpen = ref(false)
@@ -397,7 +395,7 @@ watch(
     if (unitNameBefore.value === 'Hour') {
       if (newValue === beforeConvert.value * 60) {
         scoreGiveForWin.value = getRandomIntInclusive(10, 100)
-        setScore(score_count.value + scoreGiveForWin.value)
+        AddGameScore(scoreGiveForWin.value)
         userAnswer.value = ""
         clearTimeout(setTimeout(closeMiniGame3, 15000))
         congratPlayerWin()
@@ -406,7 +404,7 @@ watch(
     else {
       if (newValue === beforeConvert.value / 60) {
         scoreGiveForWin.value = getRandomIntInclusive(10, 100)
-        setScore(score_count.value + scoreGiveForWin.value)
+        AddGameScore(scoreGiveForWin.value)
         userAnswer.value = ""
         clearTimeout(setTimeout(closeMiniGame3, 15000))
         congratPlayerWin()
@@ -441,6 +439,38 @@ const closeCongratPlayerWin = () => {
   displayshow = true
   minigameWin.value = false
 }
+
+//เพิ่มคะแนนเมือจบเกม--------
+const AddGameScore = (score) => {
+  if (Goose.value==="Goose") {
+    setScore(score_count.value + score)
+    changeBackground()
+  } else {
+    setScore(score_count.value - score)
+    changeBackground()
+  }
+
+}
+
+//ลดคะแนน
+const reduceGameScore = (score) => {
+  if (Goose.value==="Goose") {
+    setScore(score_count.value - score)
+    changeBackground()
+  } else {
+    setScore(score_count.value + score)
+    changeBackground()
+  }
+}
+
+//Minigame4 (Hafiz,Gain) Part --------------------------
+const options = ref([
+  { name: "rock", label: "หิน", emoji: "✊" },
+  { name: "paper", label: "กระดาษ", emoji: "✋" },
+  { name: "scissors", label: "กรรไกร", emoji: "✌️" }
+]);
+
+
 
 changeBackground()
 </script>
@@ -725,6 +755,20 @@ changeBackground()
           class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded transition duration-300">❗หากตอบถูกระบบจะปิดหน้าต่างนี้อัตโนมัติ</button>
       </div>
     </div>
+    
+<!-- Minigame4 (Hafiz,Gain) of PushGoose  -->
+<!-- <div class="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
+    <h1 class="text-3xl font-bold mb-6">เป่ายิ้งฉุบ</h1>
+    <div class="grid grid-cols-3 gap-4 mb-6 w-full max-w-md">
+      <div v-for="option in options" :key="option.name" @click="play(option.name)"
+        class="bg-white shadow-md rounded-lg p-6 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-200 transition transform hover:scale-105">
+        <span class="text-6xl">{{ option.emoji }}</span>
+        <span class="mt-2 font-bold text-lg">{{ option.label }}</span>
+      </div>
+    </div>
+    <div v-if="result" class="text-lg font-semibold mt-4">ผลลัพธ์: {{ result }}</div>
+    <div class="mt-4 text-sm text-gray-700">คุณเลือก: <span class="font-bold">{{ playerChoice }}</span> | บอทเลือก: <span class="font-bold">{{ botChoice }}</span></div>
+  </div> -->
 
     <!-- Winner Page of PushGoose  -->
     <div v-if="minigameWin"
