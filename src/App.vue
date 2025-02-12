@@ -142,128 +142,117 @@ function changeBackgroundBadGoose() {
   }
 }
 
+//66130500122 work start
 //for Multiple
-let nclick = 0;
-let PresentMultiple = ref(1);
-let MColor = "color:black";
+let ClickNumber = 0
+let PresentMultiple = ref(1)
+let MultipleColor = "color:black"
 
 const increaseCount = () => {
-  if (Goose.value === "Goose") {
-    setScore(score_count.value + 1 * PresentMultiple.value);
+  if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.png" &&
+    goose_mouth_image_open.value === "./gooseImages/goose_mouth_open.png") {
+    setScore(score_count.value + (1 * PresentMultiple.value))
   } else {
-    setScore(score_count.value - 1 * PresentMultiple.value);
+    setScore(score_count.value - (1 * PresentMultiple.value))
   }
-};
 
-//Random Multiple
+}
+
+//Random Multiple 
 function RandomMultiple() {
-  nclick++; //นับว่าคลิกไปกี่ครั้งแล้วหลังจากไม่ได้ตัวคูณ
-  const ran = Math.ceil(Math.random() * 30);
-  if (ran - nclick > 0) {
-    //ยิ่งกดไม่ติดเยอะ โอกาศยิ่งเพิ่มขึ้นการันตีอยู่ที่30ครั้ง
-    PresentMultiple.value = 1; //รีเซ็ตตัวคูณ
-    MColor = "color:black";
-    return PresentMultiple.value;
-  } else if (ran - nclick <= 0) {
-    PresentMultiple.value = Math.ceil(Math.random() * 10); //สุ่มตัวคูณ1-10
-    nclick = 0; //รีเซ็ตค่าคลิก
+  ClickNumber++ //นับว่าคลิกไปกี่ครั้งแล้วหลังจากไม่ได้ตัวคูณ
+  const Ran = Math.ceil(Math.random() * 30);
+  if (Ran - ClickNumber > 0) { //ยิ่งกดไม่ติดเยอะ โอกาศยิ่งเพิ่มขึ้นการันตีอยู่ที่30ครั้งF
+    PresentMultiple.value = 1 //รีเซ็ตตัวคูณ
+    MultipleColor = "color:black"
+    return PresentMultiple.value
+  } else if (Ran - ClickNumber <= 0) {
+    PresentMultiple.value = Math.ceil(Math.random() * 10) //สุ่มตัวคูณ1-10
+    ClickNumber = 0 //รีเซ็ตค่าคลิก
     if (PresentMultiple.value > 3) {
-      MColor = "color:green";
+      MultipleColor = "color:green"
       if (PresentMultiple.value > 6) {
-        MColor = "color:blue";
+        MultipleColor = "color:blue"
         if (PresentMultiple.value > 9) {
-          MColor = "color:red";
+          MultipleColor = "color:red"
         }
       }
     }
-    return PresentMultiple.value;
+    return PresentMultiple.value
   }
 }
 
 //Random Event (+ - x ÷)
-let displayshow = true;
-let display2show = false;
-let math1 = 0;
-let math2 = 0;
-let mathsum = 0;
-let mathran2 = Math.ceil(Math.random() * 3);
-let MathOperation = "+";
-let InputNumber = ref(0);
-let Timeouts = [];
+let displayshow = ref(true) //แสดงผลหน้าต่างๆ
+let math1 = 0 //ตัวเลขตั้งต้น
+let math2 = 0 //ตัวเลขสอง
+let MathOperation = "+" //สำหรับแสดงผล
+let InputNumber = ref(0) //สำหรับรับค่า
+let Timeouts = [] //สำหรับเก็บ Timeout
+let Notlose = true //แสดงว่าตอบถูกไหม
+let mathsum = 0 //ผลรวมคำตอบ เอาไว้เปรียบเทียบ
+// รีเซ็ตตัวแปรต่างๆทั้งหมด
+function ResetMathMinigame(display) {
+  InputNumber.value = ""
+  math1 = 0
+  math2 = 0
+  clearAlltimeout()
+  displayshow.value = display 
+}
+function clearAlltimeout(){
+  Timeouts.forEach(id => clearTimeout(id));
+  Timeouts = []
+}
+//หาผลรวมและสุ่มค่าใหม่
+function ForMathSum(){
+  let mathran = getRandomIntInclusive(1,3)
+  let sum = 0
+  math1 = getRandomIntInclusive(3000,10000)
+  math2 = getRandomIntInclusive(1,2000)
+  if (mathran === 0) {
+    MathOperation = "+"
+    sum = math1 + math2
+  }
+  if (mathran === 1) {
+    MathOperation = "-"
+    sum = math1 - math2
+  }
+  if (mathran === 2) {
+    MathOperation = "×"
+    sum = math1 * math2
+  }
+  return sum 
+}
 
-function MinigameMath() {
-  InputNumber.value = "";
-  displayshow = false;
-  display2show = true;
-  isMiniGameModalOpen.value = false;
-  math1 = 0;
-  math2 = 0;
-  mathran2 = Math.ceil(Math.random() * 3);
-  math1 = Math.ceil(Math.random() * 10000) + 3000;
-  math2 = Math.ceil(Math.random() * 2000) + 1000;
-  if (mathran2 === 0) {
-    MathOperation = "+";
-    mathsum = math1 + math2;
-  }
-  if (mathran2 === 1) {
-    MathOperation = "-";
-    mathsum = math1 - math2;
-  }
-  if (mathran2 === 2) {
-    MathOperation = "×";
-    mathsum = math1 * math2;
-  }
-  if (
-    Timeouts.length === 0 &&
-    mathsum !== 0 &&
-    mathsum !== undefined &&
-    mathsum !== null
-  ) {
-    let Timeout = setTimeout(LosingMinigame, 30000);
-    Timeouts.push(Timeout);
-  } else {
-    // ดักเผื่อ timeout ซ้อนกัน และกันไม่มีตัวเลขเมื่อกดเล่น minigame
-    InputNumber.value = 0;
-    math1 = 0;
-    math2 = 0;
-    displayshow = true;
-    display2show = false;
-    Timeouts.forEach((id) => clearTimeout(id));
-    Timeouts = [];
-    MinigameMath();
+function MinigameMath() { // ตัวเริ่ม Minigame ทายตัวเลข
+  ResetMathMinigame(false)
+  mathsum = ForMathSum()
+  if (Timeouts.length === 0 && mathsum !== 0 && mathsum !== undefined && mathsum !== null) {
+    let Timeout = setTimeout(LosingMinigame, 30000)
+    Timeouts.push(Timeout)
+  } else { // ดักเผื่อ timeout ซ้อนกัน และกันไม่มีตัวเลขเมื่อกดเล่น minigame
+    ResetMathMinigame(false)
+    MinigameMath()
   }
 }
 
-watch([InputNumber], () => {
+
+watch([InputNumber], () => { // ตรวจคำตอบตัวเลข
   if (InputNumber.value == mathsum && InputNumber.value !== 0) {
-    AddGameScore(Math.floor(score_count.value / 10));
-    Timeouts.forEach((id) => clearTimeout(id)); // ใช้อันนี้เพราะหาวิธีแก้Timeoutไม่ได้เลยลบให้หมดเลย ใช้clearTimeoutปกติไม่ได้(ไม่รู้ทำไมเหมือนกัน)
-    Timeouts = [];
-    MathcongratPlayerWin();
-    InputNumber.value = 0;
-    math1 = 0;
-    math2 = 0;
-    mathsum = 0;
-    displayshow = true;
-    display2show = false;
+    AddGameScore(Math.floor(score_count.value/10))
+    ResetMathMinigame(true)
+    MathcongratPlayerWin()
   }
-});
+})
 
-function LosingMinigame() {
-  if (mathsum !== 0) {
-    reduceGameScore(Math.floor(score_count.value / 2));
-    setScore(newscore);
-    Timeouts.forEach((id) => clearTimeout(id));
-    Timeouts = [];
-    MathcongratPlayerWin();
-    math1 = 0;
-    math2 = 0;
-    mathsum = 0;
-    InputNumber.value = 0;
-    displayshow = true;
-    display2show = false;
-  }
+
+function LosingMinigame() { // ถ้าแพ้
+    reduceGameScore(Math.ceil(score_count.value/2))
+    Notlose = false
+    MathcongratPlayerWin()
+    ResetMathMinigame(true)
 }
+// 66130500122 work end
 
 //Guessing game from pictures game
 const guessingQuestion = [
@@ -311,7 +300,7 @@ function checkGuessingAns() {
 function newGuessingQuestion() {
   isMiniGameModalOpen.value = false;
   displayMiniG2 = true;
-  displayshow = false;
+  displayshow.value = false;
   randomQuestion.value = randomGuesingQ();
   YourAnswer.value = "";
   message.value = "";
@@ -499,11 +488,11 @@ const MathcongratPlayerWin = () => {
   setTimeout(closeCongratPlayerWin, 2000);
 };
 const closeMiniG2Lose = () => {
-  displayshow = true;
+  displayshow.value = true;
   displayMiniG2 = false;
 };
 const closeCongratPlayerWin = () => {
-  displayshow = true;
+  displayshow.value = true;
   minigameWin.value = false;
 };
 
@@ -569,7 +558,7 @@ changeBackground();
         </div>
 
         <!-- Multiple Display with Text Outline -->
-        <h2 class="text-3xl font-bold italic text-white text-center px-6 py-2 mt-4 rounded-md" v-bind:style="MColor"
+        <h2 class="text-3xl font-bold italic text-white text-center px-6 py-2 mt-4 rounded-md" v-bind:style="MultipleColor"
           v-text="`X` + PresentMultiple" style="
             text-shadow: 0px 0px 6px rgba(255, 255, 255, 1),
               0px 0px 12px rgba(255, 255, 255, 0.8),
@@ -779,7 +768,7 @@ changeBackground();
 
     <!-- Minigame of PushGoose  -->
     <!-- MathGame UI -->
-    <div v-if="display2show">
+    <div v-if="!displayshow && !displayMiniG2 && !minigameWin">
       <div class="flex items-center justify-center min-h-screen bg-gray-100 m-0">
         <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
           <h1 class="text-2xl font-bold mb-4">Number Quiz Game</h1>
@@ -889,10 +878,10 @@ changeBackground();
     <div v-if="minigameWin"
       class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-600 to-green-600 p-6 text-white text-center">
       <h1 class="text-4xl md:text-5xl font-bold mb-2 drop-shadow-lg">
-        Well Done!
+        {{Notlose ? "Well Done!" : "Your Answer Incorrect"}}
       </h1>
       <p class="text-lg md:text-xl">
-        You earned
+        You {{Notlose ? "earned" : "lost"}}
         <span class="font-semibold">{{ score_count - old_score }}</span> points!
       </p>
     </div>
