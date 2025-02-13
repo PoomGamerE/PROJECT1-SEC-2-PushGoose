@@ -1,17 +1,19 @@
 <script setup>
-import { computed, ref, watch } from "vue";
+import { computed, ref, watch, onMounted } from "vue";
 
 //Sound
-const volumeOn = "./volumeOn_Off/volume_on.png"; //volume-on.png
-const volumeOff = "./volumeOn_Off/volume_off.png"; //volume-off.png
-const currentVolumeIcon = ref(volumeOn); //reactive variable
+const onMusic = ref(false)
+const musicPlayer = ref(null)
 
-const whenClicked = () => {
-  currentVolumeIcon.value =
-    currentVolumeIcon.value === volumeOn ? volumeOff : volumeOn;
-  // if the currentVolumeIcon.value = volumeOn is TRUE the value is going to be volumeOff
-  // if not it's volumeOn
-};
+const playMusic = () => {
+  onMusic.value = !onMusic.value
+  if (onMusic.value) musicPlayer.value.play()
+  else musicPlayer.value.pause()
+}
+
+onMounted(() => {
+  musicPlayer.value = document.querySelector('#musicPlayer')
+})
 
 //goose img zone
 const goose_mouth_image_open = ref("./gooseImages/goose_mouth_open.png");
@@ -197,18 +199,18 @@ function ResetMathMinigame(display) {
   math1 = 0
   math2 = 0
   clearAlltimeout()
-  displayshow.value = display 
+  displayshow.value = display
 }
-function clearAlltimeout(){
+function clearAlltimeout() {
   Timeouts.forEach(id => clearTimeout(id));
   Timeouts = []
 }
 //หาผลรวมและสุ่มค่าใหม่
-function ForMathSum(){
-  let mathran = getRandomIntInclusive(1,3)
+function ForMathSum() {
+  let mathran = getRandomIntInclusive(1, 3)
   let sum = 0
-  math1 = getRandomIntInclusive(3000,10000)
-  math2 = getRandomIntInclusive(1,2000)
+  math1 = getRandomIntInclusive(3000, 10000)
+  math2 = getRandomIntInclusive(1, 2000)
   if (mathran === 0) {
     MathOperation = "+"
     sum = math1 + math2
@@ -221,7 +223,7 @@ function ForMathSum(){
     MathOperation = "×"
     sum = math1 * math2
   }
-  return sum 
+  return sum
 }
 
 function MinigameMath() { // ตัวเริ่ม Minigame ทายตัวเลข
@@ -239,7 +241,7 @@ function MinigameMath() { // ตัวเริ่ม Minigame ทายตั�
 
 watch([InputNumber], () => { // ตรวจคำตอบตัวเลข
   if (InputNumber.value == mathsum && InputNumber.value !== 0) {
-    multiplyGameScore(Math.floor(score_count.value/10))
+    multiplyGameScore(Math.floor(score_count.value / 10))
     ResetMathMinigame(true)
     MathcongratPlayerWin()
   }
@@ -247,10 +249,10 @@ watch([InputNumber], () => { // ตรวจคำตอบตัวเลข
 
 
 function LosingMinigame() { // ถ้าแพ้
-    multiplyGameScore(-(Math.ceil(score_count.value/2)))
-    Notlose = false
-    MathcongratPlayerWin()
-    ResetMathMinigame(true)
+  multiplyGameScore(-(Math.ceil(score_count.value / 2)))
+  Notlose = false
+  MathcongratPlayerWin()
+  ResetMathMinigame(true)
 }
 // 66130500122 work end
 
@@ -440,7 +442,7 @@ const openMiniGame4 = () => {
 const closeMiniGame4 = () => {
   showMiniGame4.value = false;
   scoreGiveForWin.value = getRandomIntInclusive(10, 100);
-      AddGameScore(scoreGiveForWin.value);
+  AddGameScore(scoreGiveForWin.value);
   resetGame();
 }
 
@@ -510,8 +512,8 @@ const AddGameScore = (score) => {
 
 //ลดคะแนน
 const multiplyGameScore = (score) => {
-    setScore(score_count.value + score);
-    changeBackground()
+  setScore(score_count.value + score);
+  changeBackground()
 };
 
 changeBackground();
@@ -520,7 +522,8 @@ changeBackground();
 <template>
   <div>
     <!-- Main Page of PushGoose -->
-    <div v-if="minigame3On !== true && minigameWin !== true && displayshow && showMiniGame4 !== true && minigame2On != true"
+    <div
+      v-if="minigame3On !== true && minigameWin !== true && displayshow && showMiniGame4 !== true && minigame2On != true"
       class="overflow-hidden h-screen">
       <div v-bind:style="{ backgroundImage: `url(${background})` }"
         class="bg-no-repeat bg-cover flex flex-col items-center justify-center h-screen p-4">
@@ -554,8 +557,8 @@ changeBackground();
         </div>
 
         <!-- Multiple Display with Text Outline -->
-        <h2 class="text-3xl font-bold italic text-white text-center px-6 py-2 mt-4 rounded-md" v-bind:style="MultipleColor"
-          v-text="`X` + PresentMultiple" style="
+        <h2 class="text-3xl font-bold italic text-white text-center px-6 py-2 mt-4 rounded-md"
+          v-bind:style="MultipleColor" v-text="`X` + PresentMultiple" style="
             text-shadow: 0px 0px 6px rgba(255, 255, 255, 1),
               0px 0px 12px rgba(255, 255, 255, 0.8),
               4px 4px 8px rgba(0, 0, 0, 0.7);
@@ -563,11 +566,16 @@ changeBackground();
 
         <!-- Volume & Image Selector -->
         <div class="absolute top-5 right-5 flex gap-4">
-          <!-- Volume Toggle -->
-          <button v-on:click="whenClicked"
-            class="w-14 h-14 flex items-center justify-center bg-gray-200 rounded-full hover:bg-gray-300 transition cursor-pointer">
-            <img class="w-10 h-10" v-bind:src="currentVolumeIcon" />
-          </button>
+          <div class="">
+          <!-- Hidden audio element -->
+          <audio id="musicPlayer" class="hidden" loop>
+            <source src="./assets/sound/boba-date.mp3" type="audio/mp3">
+          </audio>
+
+          <!-- Music Toggle -->
+          <img :src="onMusic ? '/volumeOn_Off/volume_on.png' : '/volumeOn_Off/volume_off.png'" @click="playMusic"
+            class="w-12 h-12 cursor-pointer" />
+          </div>
 
           <!-- Change Goose Type -->
           <select @change="changeImage"
@@ -789,8 +797,10 @@ changeBackground();
           Guessing from Pictures
         </h1>
         <div class="flex justify-center gap-4 mb-6">
-          <img :src="randomQuestionOfGame2.image1" alt="question img1" class="w-48 h-48 object-cover rounded-lg shadow-lg" />
-          <img :src="randomQuestionOfGame2.image2" alt="question img2" class="w-48 h-48 object-cover rounded-lg shadow-lg" />
+          <img :src="randomQuestionOfGame2.image1" alt="question img1"
+            class="w-48 h-48 object-cover rounded-lg shadow-lg" />
+          <img :src="randomQuestionOfGame2.image2" alt="question img2"
+            class="w-48 h-48 object-cover rounded-lg shadow-lg" />
         </div>
         <p class="text-lg font-semibold text-gray-700 mb-4 text-center">
           Enter your answer in thai :
@@ -864,8 +874,8 @@ changeBackground();
         Result: {{ result }}
       </div>
       <div class="mt-4 text-sm text-gray-700">
-        You choose: <span class="font-bold">{{ playerChoice }}</span> 
-        | 
+        You choose: <span class="font-bold">{{ playerChoice }}</span>
+        |
         Bot choose: <span class="font-bold">{{ botChoice }}</span>
       </div>
     </div>
@@ -874,10 +884,10 @@ changeBackground();
     <div v-if="minigameWin"
       class="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-600 to-green-600 p-6 text-white text-center">
       <h1 class="text-4xl md:text-5xl font-bold mb-2 drop-shadow-lg">
-        {{Notlose ? "Well Done!" : "Your Answer Incorrect"}}
+        {{ Notlose ? "Well Done!" : "Your Answer Incorrect" }}
       </h1>
       <p class="text-lg md:text-xl">
-        You {{Notlose ? "earned" : "lost"}}
+        You {{ Notlose ? "earned" : "lost" }}
         <span class="font-semibold">{{ score_count - old_score }}</span> points!
       </p>
     </div>
