@@ -254,6 +254,7 @@ function LosingMinigame() { // ถ้าแพ้
 }
 // 66130500122 work end
 
+//66130500087 part
 //Guessing game from pictures game
 const guessingQuestion = [
   {
@@ -277,36 +278,38 @@ const guessingQuestion = [
     answer: "กุ้งเต้น",
   },
 ];
-let randomQuestion = ref(randomGuesingQ());
-let YourAnswer = ref("");
+let randomQuestionOfGame2 = ref(randomGuesingQuestion());
+let YourAnswerGame2 = ref("");
 let message = ref("");
 let messageClass = ref("");
-let displayMiniG2 = false;
+let minigame2On = false;
 
-function checkGuessingAns() {
-  if (YourAnswer.value.trim() === randomQuestion.value.answer) {
+// เช็คคำตอบของมินิเกม 2
+function checkGuessingAnswer() {
+  if (YourAnswerGame2.value.trim() === randomQuestionOfGame2.value.answer) {
     AddGameScore(Math.floor(score_count.value / 10));
     message.value = "Correct!!!!";
     messageClass.value = "text-green-600 mt-8 text-center font-bold";
-    setTimeout(congratMiniG2PlayerWin, 500);
+    setTimeout(congratPlayerWin, 500);
   } else {
     reduceGameScore(Math.floor(score_count.value / 5));
     message.value = "Wrong!!!! Let’s try again";
     messageClass.value = "text-red-600 mt-8 text-center font-bold";
-    setTimeout(closeMiniG2Lose, 2000);
+    setTimeout(closeMiniGame2Lose, 1000);
   }
 }
-
+// เปิดมินิเกม 2 และสุ่มคำถามจากการกดปุ่มและเคลียร์ค่า 
 function newGuessingQuestion() {
   isMiniGameModalOpen.value = false;
-  displayMiniG2 = true;
+  minigame2On = true;
   displayshow.value = false;
-  randomQuestion.value = randomGuesingQ();
-  YourAnswer.value = "";
+  randomQuestionOfGame2.value = randomGuesingQuestion();
+  YourAnswerGame2.value = "";
   message.value = "";
   messageClass.value = "";
 }
-function randomGuesingQ() {
+// สุ่มคำถาม มินิเกม 2
+function randomGuesingQuestion() {
   return guessingQuestion[Math.floor(Math.random() * guessingQuestion.length)];
 }
 
@@ -473,13 +476,9 @@ const getResult = (player, bot) => {
 const minigameWin = ref(false);
 
 const congratPlayerWin = () => {
+  minigame2On = false;
   closeMiniGame3();
   closeMiniGame4();
-  minigameWin.value = true;
-  setTimeout(closeCongratPlayerWin, 2000);
-};
-const congratMiniG2PlayerWin = () => {
-  displayMiniG2 = false;
   minigameWin.value = true;
   setTimeout(closeCongratPlayerWin, 2000);
 };
@@ -487,9 +486,9 @@ const MathcongratPlayerWin = () => {
   minigameWin.value = true;
   setTimeout(closeCongratPlayerWin, 2000);
 };
-const closeMiniG2Lose = () => {
+const closeMiniGame2Lose = () => {
   displayshow.value = true;
-  displayMiniG2 = false;
+  minigame2On = false;
 };
 const closeCongratPlayerWin = () => {
   displayshow.value = true;
@@ -524,7 +523,7 @@ changeBackground();
 <template>
   <div>
     <!-- Main Page of PushGoose -->
-    <div v-if="minigame3On !== true && minigameWin !== true && displayshow && showMiniGame4 !== true"
+    <div v-if="minigame3On !== true && minigameWin !== true && displayshow && showMiniGame4 !== true && minigame2On != true"
       class="overflow-hidden h-screen">
       <div v-bind:style="{ backgroundImage: `url(${background})` }"
         class="bg-no-repeat bg-cover flex flex-col items-center justify-center h-screen p-4">
@@ -768,7 +767,7 @@ changeBackground();
 
     <!-- Minigame of PushGoose  -->
     <!-- MathGame UI -->
-    <div v-if="!displayshow && !displayMiniG2 && !minigameWin">
+    <div v-if="!displayshow && !minigame2On && !minigameWin">
       <div class="flex items-center justify-center min-h-screen bg-gray-100 m-0">
         <div class="bg-white p-8 rounded shadow-md w-full max-w-md">
           <h1 class="text-2xl font-bold mb-4">Number Quiz Game</h1>
@@ -786,26 +785,26 @@ changeBackground();
 
   <!-- GuessingGame UI -->
   <div>
-    <div v-if="displayMiniG2"
+    <div v-if="minigame2On === true"
       class="flex items-center justify-center min-h-screen bg-gradient-to-r from-green-400 via-blue-500 to-purple-600 m-0">
       <div class="bg-white p-8 rounded-lg shadow-lg w-full max-w-xl">
         <h1 class="text-3xl font-extrabold text-center text-gray-800 mb-6">
           Guessing from Pictures
         </h1>
         <div class="flex justify-center gap-4 mb-6">
-          <img :src="randomQuestion.image1" alt="question img1" class="w-48 h-48 object-cover rounded-lg shadow-lg" />
-          <img :src="randomQuestion.image2" alt="question img2" class="w-48 h-48 object-cover rounded-lg shadow-lg" />
+          <img :src="randomQuestionOfGame2.image1" alt="question img1" class="w-48 h-48 object-cover rounded-lg shadow-lg" />
+          <img :src="randomQuestionOfGame2.image2" alt="question img2" class="w-48 h-48 object-cover rounded-lg shadow-lg" />
         </div>
         <p class="text-lg font-semibold text-gray-700 mb-4 text-center">
           Enter your answer in thai :
         </p>
-        <input v-model="YourAnswer" type="text"
+        <input v-model="YourAnswerGame2" type="text"
           class="border border-gray-300 rounded-lg w-full py-3 px-4 mb-6 focus:outline-none focus:ring-2 focus:ring-blue-500"
           placeholder="Your answer" />
         <div class="flex gap-4 justify-center">
           <button
             class="px-6 py-3 text-white font-semibold rounded-full bg-green-500 hover:bg-green-600 transition duration-300 ease-in-out transform hover:scale-105"
-            @click="checkGuessingAns">
+            @click="checkGuessingAnswer">
             Submit
           </button>
           <button
