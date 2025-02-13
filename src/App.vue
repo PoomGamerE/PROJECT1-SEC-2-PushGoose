@@ -22,8 +22,8 @@ const Goose = ref("Goose");
 //Change img zone
 const changeImage = (event) => {
   if (event.target.value === "BadGoose") {
-    changeImagegooseBadGoose();
-  } else if (event.target.value === "Goose") changeImagegoose();
+    changeImagegooseBadGoose()
+  } else if (event.target.value === "Goose") changeImagegoose()
 };
 
 const mouthclose = () => {
@@ -126,17 +126,17 @@ function changeBackgroundGoose() {
 
 function changeBackgroundBadGoose() {
   if (score_count.value < -10000) {
-    background.value = bgBrain;
+    background.value = "./backgroundImages/Badbg/Hell.webp";
   } else if (score_count.value < -7000) {
-    background.value = bgSpace;
+    background.value = "./backgroundImages/Badbg/word_ending.webp";
   } else if (score_count.value < -4500) {
-    background.value = bgVolcano;
+    background.value = "./backgroundImages/Badbg/Earth_axis.webp";
   } else if (score_count.value < -3000) {
-    background.value = bgFlame;
+    background.value = "./backgroundImages/Badbg/Lava.webp";
   } else if (score_count.value < -1500) {
-    background.value = bgSea;
+    background.value = "./backgroundImages/Badbg/Deep_cave.webp";
   } else if (score_count.value < -500) {
-    background.value = bgMountain;
+    background.value = "./backgroundImages/Badbg/Cave_front.webp";
   } else {
     background.value = bgWindowXP;
   }
@@ -239,7 +239,7 @@ function MinigameMath() { // ตัวเริ่ม Minigame ทายตั�
 
 watch([InputNumber], () => { // ตรวจคำตอบตัวเลข
   if (InputNumber.value == mathsum && InputNumber.value !== 0) {
-    AddGameScore(Math.floor(score_count.value/10))
+    multiplyGameScore(Math.floor(score_count.value/10))
     ResetMathMinigame(true)
     MathcongratPlayerWin()
   }
@@ -247,7 +247,7 @@ watch([InputNumber], () => { // ตรวจคำตอบตัวเลข
 
 
 function LosingMinigame() { // ถ้าแพ้
-    reduceGameScore(Math.ceil(score_count.value/2))
+    multiplyGameScore(-(Math.ceil(score_count.value/2)))
     Notlose = false
     MathcongratPlayerWin()
     ResetMathMinigame(true)
@@ -287,12 +287,12 @@ let minigame2On = false;
 // เช็คคำตอบของมินิเกม 2
 function checkGuessingAnswer() {
   if (YourAnswerGame2.value.trim() === randomQuestionOfGame2.value.answer) {
-    AddGameScore(Math.floor(score_count.value / 10));
+    multiplyGameScore(Math.floor(score_count.value / 10));
     message.value = "Correct!!!!";
     messageClass.value = "text-green-600 mt-8 text-center font-bold";
     setTimeout(congratPlayerWin, 500);
   } else {
-    reduceGameScore(Math.floor(score_count.value / 5));
+    multiplyGameScore(-(Math.floor(score_count.value / 5)));
     message.value = "Wrong!!!! Let’s try again";
     messageClass.value = "text-red-600 mt-8 text-center font-bold";
     setTimeout(closeMiniGame2Lose, 1000);
@@ -439,6 +439,8 @@ const openMiniGame4 = () => {
 // Close Game
 const closeMiniGame4 = () => {
   showMiniGame4.value = false;
+  scoreGiveForWin.value = getRandomIntInclusive(10, 100);
+      AddGameScore(scoreGiveForWin.value);
   resetGame();
 }
 
@@ -499,22 +501,17 @@ const closeCongratPlayerWin = () => {
 const AddGameScore = (score) => {
   if (Goose.value === "Goose") {
     setScore(score_count.value + score);
-    changeBackground();
+    changeBackground()
   } else {
     setScore(score_count.value - score);
-    changeBackground();
+    changeBackground()
   }
 };
 
 //ลดคะแนน
-const reduceGameScore = (score) => {
-  if (Goose.value === "Goose") {
-    setScore(score_count.value - score);
-    changeBackground();
-  } else {
+const multiplyGameScore = (score) => {
     setScore(score_count.value + score);
-    changeBackground();
-  }
+    changeBackground()
 };
 
 changeBackground();
