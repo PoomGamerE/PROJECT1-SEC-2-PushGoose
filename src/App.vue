@@ -803,7 +803,8 @@ changeBackground();
                 <p>
                   We also have mini-games. The first game we have is a Number
                   Quiz game. The second game we have is a Guessing from Pic
-                  game. And the last game we have is a Unit Converter game.
+                  game. The third game we have is a Unit Converter game 
+                  and the last game is Rock-Paper-Scissors game.
                 </p>
               </div>
               <div class="flex justify-between mt-4">
