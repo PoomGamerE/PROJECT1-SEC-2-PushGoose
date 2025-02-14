@@ -1,25 +1,70 @@
 <script setup>
-import { computed, ref, watch, onMounted } from "vue";
+import { ref, watch, onMounted } from "vue";
+import goodGoosesound from '@/assets/sound/geese-cackling.mp3'
+import badGoosesound from '@/assets/sound/geese-honking.mp3'
 
-//Sound
-const onMusic = ref(false)
-const musicPlayer = ref(null)
+// ค่า Goose.value
+const Goose = ref("Goose");
 
-const playMusic = () => {
-  onMusic.value = !onMusic.value
-  if (onMusic.value) musicPlayer.value.play()
-  else musicPlayer.value.pause()
+//Sound Reactive
+const onBgMusic = ref(false)
+const musicGoodBgPlayer = ref(null)
+const musicBadBgPlayer = ref(null)
+
+// logic แยกระหว่างเสียง background ห่านดีกับไม่ดี
+const playBgMusic = () => {
+  if (!musicGoodBgPlayer.value || !musicBadBgPlayer.value) 
+  return
+  musicGoodBgPlayer.value.pause()
+  musicBadBgPlayer.value.pause()
+
+  musicGoodBgPlayer.value.currentTime = 0
+  musicBadBgPlayer.value.currentTime = 0
+
+  if (onBgMusic.value) { // ถ้าเปิดเสียงอยู่
+    if (Goose.value === "BadGoose") {
+      musicBadBgPlayer.value.play()
+    } else {
+      musicGoodBgPlayer.value.play()
+    }
+  }
 }
 
-onMounted(() => {
-  musicPlayer.value = document.querySelector('#musicPlayer')
-})
+// เสียงห่านตัวดี
+const playGoodGooseSound = () => {
+  const audio = new Audio(goodGoosesound) // โหลดเสียงใหม่
+  audio.currentTime = 0
+  audio.play()
+
+  setTimeout(() => {
+    audio.pause()
+    audio.currentTime = 0
+  }, 1000)
+}
+
+// เสียงห่านตัวร้าย
+const playBadGooseSound = () => {
+  const audio = new Audio(badGoosesound) // โหลดเสียงใหม่
+  audio.currentTime = 0
+  audio.play()
+
+  setTimeout(() => {
+    audio.pause()
+    audio.currentTime = 0
+  }, 1000)
+}
+
+// เปลี่ยนเพลงอัตโนมัติเมื่อ Goose เปลี่ยน
+watch(Goose, () => {
+  if (onBgMusic.value) {
+    playBgMusic() // หยุดเพลงเดิม & เล่นเพลงใหม่
+  }
+}, { immediate: true }) // ทำให้ watch ทำงานทันที
 
 //goose img zone
 const goose_mouth_image_open = ref("./gooseImages/goose_mouth_open.png");
 const goose_mouth_image_close = ref("./gooseImages/goose_mouth_close.png");
 const goose_mouth_image = ref(goose_mouth_image_close.value);
-const Goose = ref("Goose");
 
 //Change img zone
 const changeImage = (event) => {
@@ -521,6 +566,16 @@ changeBackground();
 
 <template>
   <div>
+    <!-- audio GoodGoose background -->
+    <audio ref="musicGoodBgPlayer" class="hidden" loop>
+      <source src="./assets/sound/goodGooseBg.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- audio BadGoose background -->
+    <audio ref="musicBadBgPlayer" class="hidden" loop>
+      <source src="./assets/sound/badGooseBg.mp3" type="audio/mp3">
+    </audio>
+
     <!-- Main Page of PushGoose -->
     <div
       v-if="minigame3On !== true && minigameWin !== true && displayshow && showMiniGame4 !== true && minigame2On != true"
@@ -553,7 +608,8 @@ changeBackground();
             increaseCount();
           RandomMultiple();
           changeBackground();
-          " @mousedown="mouthopen" @mouseup="mouthclose" />
+          Goose === 'BadGoose' ? playBadGooseSound() : playGoodGooseSound()
+            " @mousedown="mouthopen" @mouseup="mouthclose" />
         </div>
 
         <!-- Multiple Display with Text Outline -->
@@ -566,19 +622,15 @@ changeBackground();
 
         <!-- Volume & Image Selector -->
         <div class="absolute top-5 right-5 flex gap-4">
-          <div class="">
-          <!-- Hidden audio element -->
-          <audio id="musicPlayer" class="hidden" loop>
-            <source src="./assets/sound/boba-date.mp3" type="audio/mp3">
-          </audio>
-
-          <!-- Music Toggle -->
-          <img :src="onMusic ? '/volumeOn_Off/volume_on.png' : '/volumeOn_Off/volume_off.png'" @click="playMusic"
-            class="w-12 h-12 cursor-pointer" />
+          <div>
+            <!-- Music Button -->
+            <img :src="onBgMusic ? '/volumeOn_Off/volume_on.png' : '/volumeOn_Off/volume_off.png'" 
+              @click="onBgMusic = !onBgMusic; playBgMusic()"
+              class="w-12 h-12 cursor-pointer" />
           </div>
 
           <!-- Change Goose Type -->
-          <select @change="changeImage"
+          <select @change="changeImage" v-model="Goose"
             class="px-4 py-2 text-white font-semibold rounded-lg bg-green-500 hover:bg-green-600 transition cursor-pointer">
             <option value="Goose">Goose</option>
             <option value="BadGoose">Bad</option>
@@ -860,7 +912,7 @@ changeBackground();
       </div>
     </div>
 
-    <!-- Rock-Paper-Scissors Game (Hafiz,Gain) of PushGoose  -->
+    <!-- MiniGame 4 (Hafiz,Gain) of PushGoose  -->
     <div v-if="showMiniGame4 === true" class="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
       <h1 class="text-3xl font-bold mb-6">Rock-Paper-Scissors</h1>
       <div class="grid grid-cols-3 gap-4 mb-6 w-full max-w-md">
