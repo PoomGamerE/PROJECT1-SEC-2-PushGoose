@@ -1,7 +1,5 @@
 <script setup>
-import { ref, watch, onMounted } from "vue";
-import goodGoosesound from '@/assets/sound/geese-cackling.mp3'
-import badGoosesound from '@/assets/sound/geese-honking.mp3'
+import { ref, watch } from "vue";
 
 // ค่า Goose.value
 const Goose = ref("Goose");
@@ -32,7 +30,7 @@ const playBgMusic = () => {
 
 // เสียงห่านตัวดี
 const playGoodGooseSound = () => {
-  const audio = new Audio(goodGoosesound) // โหลดเสียงใหม่
+  const audio = new Audio('./sound/geese-cackling.mp3') // โหลดเสียงใหม่
   audio.currentTime = 0
   audio.play()
 
@@ -44,7 +42,7 @@ const playGoodGooseSound = () => {
 
 // เสียงห่านตัวร้าย
 const playBadGooseSound = () => {
-  const audio = new Audio(badGoosesound) // โหลดเสียงใหม่
+  const audio = new Audio('./sound/geese-honking.mp3') // โหลดเสียงใหม่
   audio.currentTime = 0
   audio.play()
 
@@ -568,12 +566,12 @@ changeBackground();
   <div>
     <!-- audio GoodGoose background -->
     <audio ref="musicGoodBgPlayer" class="hidden" loop>
-      <source src="./assets/sound/goodGooseBg.mp3" type="audio/mp3">
+      <source src="/sound/goodGooseBg.mp3" type="audio/mp3">
     </audio>
 
     <!-- audio BadGoose background -->
     <audio ref="musicBadBgPlayer" class="hidden" loop>
-      <source src="./assets/sound/badGooseBg.mp3" type="audio/mp3">
+      <source src="/sound/badGooseBg.mp3" type="audio/mp3">
     </audio>
 
     <!-- Main Page of PushGoose -->
@@ -624,7 +622,7 @@ changeBackground();
         <div class="absolute top-5 right-5 flex gap-4">
           <div>
             <!-- Music Button -->
-            <img :src="onBgMusic ? '/volumeOn_Off/volume_on.png' : '/volumeOn_Off/volume_off.png'" 
+            <img :src="onBgMusic ? './volumeOn-Off/volume-on.png' : './volumeOn-Off/volume-off.png'" 
               @click="onBgMusic = !onBgMusic; playBgMusic()"
               class="w-12 h-12 cursor-pointer" />
           </div>
