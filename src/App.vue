@@ -60,8 +60,8 @@ watch(Goose, () => {
 }, { immediate: true }) // ทำให้ watch ทำงานทันที
 
 //goose img zone
-const goose_mouth_image_open = ref("./gooseImages/goose_mouth_open.png");
-const goose_mouth_image_close = ref("./gooseImages/goose_mouth_close.png");
+const goose_mouth_image_open = ref("./gooseImages/goose_mouth_open.webp");
+const goose_mouth_image_close = ref("./gooseImages/goose_mouth_close.webp");
 const goose_mouth_image = ref(goose_mouth_image_close.value);
 
 //Change img zone
@@ -85,8 +85,8 @@ const changeImagegooseBadGoose = () => {
     Number(localStorage.getItem("scoreBadGoose")) || 0;
   score_count.value = score_from_browser_BadGoose;
   goose_mouth_image_close.value =
-    "./gooseImages/goose_mouth_close_BadGoose.png";
-  goose_mouth_image_open.value = "./gooseImages/goose_mouth_open_BadGoose.png";
+    "./gooseImages/goose_mouth_close_BadGoose.webp";
+  goose_mouth_image_open.value = "./gooseImages/goose_mouth_open_BadGoose.webp";
   goose_mouth_image.value = goose_mouth_image_close.value;
   Goose.value = "BadGoose";
   changeBackgroundBadGoose();
@@ -96,8 +96,8 @@ const changeImagegooseBadGoose = () => {
 const changeImagegoose = () => {
   score_from_browser_Goose = Number(localStorage.getItem("scoreGoose")) || 0;
   score_count.value = score_from_browser_Goose;
-  goose_mouth_image_close.value = "./gooseImages/goose_mouth_close.png";
-  goose_mouth_image_open.value = "./gooseImages/goose_mouth_open.png";
+  goose_mouth_image_close.value = "./gooseImages/goose_mouth_close.webp";
+  goose_mouth_image_open.value = "./gooseImages/goose_mouth_open.webp";
   goose_mouth_image.value = goose_mouth_image_close.value;
   changeBackgroundGoose();
   Goose.value = "Goose";
@@ -133,13 +133,13 @@ function setScore(score) {
 }
 
 //Change Background
-const bgWindowXP = "./backgroundImages/WindowsXp.jpg";
-const bgFlame = "./backgroundImages/Fireflam.jpg";
-const bgBrain = "./backgroundImages/Brain.jpg";
-const bgMountain = "./backgroundImages/mountain.jpg";
-const bgSea = "./backgroundImages/sea.jpg";
-const bgVolcano = "./backgroundImages/volcano.jpg";
-const bgSpace = "./backgroundImages/space.jpg";
+const bgWindowXP = "./backgroundImages/WindowsXp.webp";
+const bgFlame = "./backgroundImages/Fireflam.webp";
+const bgBrain = "./backgroundImages/Brain.webp";
+const bgMountain = "./backgroundImages/mountain.webp";
+const bgSea = "./backgroundImages/sea.webp";
+const bgVolcano = "./backgroundImages/volcano.webp";
+const bgSpace = "./backgroundImages/space.webp";
 
 const background = ref(bgWindowXP); //Original Background
 
@@ -194,8 +194,8 @@ let PresentMultiple = ref(1)
 let MultipleColor = "color:black"
 
 const increaseCount = () => {
-  if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.png" &&
-    goose_mouth_image_open.value === "./gooseImages/goose_mouth_open.png") {
+  if (goose_mouth_image_close.value === "./gooseImages/goose_mouth_close.webp" &&
+    goose_mouth_image_open.value === "./gooseImages/goose_mouth_open.webp") {
     setScore(score_count.value + (1 * PresentMultiple.value))
   } else {
     setScore(score_count.value - (1 * PresentMultiple.value))
@@ -303,23 +303,23 @@ function LosingMinigame() { // ถ้าแพ้
 //Guessing game from pictures game
 const guessingQuestion = [
   {
-    image1: "./guessinggame/เย็น.png",
-    image2: "./guessinggame/สี่ตา.jpg",
+    image1: "./guessinggame/เย็น.webp",
+    image2: "./guessinggame/สี่ตา.webp",
     answer: "เย็นตาโฟ",
   },
   {
-    image1: "./guessinggame/ลิ้น.jpg",
-    image2: "./guessinggame/ข้าวจี่่.jpg",
+    image1: "./guessinggame/ลิ้น.webp",
+    image2: "./guessinggame/ข้าวจี่่.webp",
     answer: "ลิ้นจี่",
   },
   {
-    image1: "./guessinggame/โล.jpg",
-    image2: "./guessinggame/ตี.jpg",
+    image1: "./guessinggame/โล.webp",
+    image2: "./guessinggame/ตี.webp",
     answer: "โรตี",
   },
   {
-    image1: "./guessinggame/กุ้ง.jpg",
-    image2: "./guessinggame/เต้น.jpg",
+    image1: "./guessinggame/กุ้ง.webp",
+    image2: "./guessinggame/เต้น.webp",
     answer: "กุ้งเต้น",
   },
 ];
@@ -627,7 +627,7 @@ changeBackground();
           <div>
             <button @click="onBgMusic = !onBgMusic; playBgMusic()"
               class="w-12 h-12 flex items-center justify-center rounded-lg bg-white border-2 border-gray-300 shadow-md transition-all hover:scale-105">
-              <img :src="onBgMusic ? './volumeOn-Off/volume-on.png' : './volumeOn-Off/volume-off.png'"
+              <img :src="onBgMusic ? './volumeOn-Off/volume-on.webp' : './volumeOn-Off/volume-off.webp'"
                 class="w-6 h-6" />
             </button>
           </div>
@@ -673,7 +673,7 @@ changeBackground();
                 <!-- Number Quiz Game -->
                 <div class="flex flex-col items-center">
                   <button @click="MinigameMath">
-                    <img src="./assets/miniGamePic/numberQuiz.jpg"
+                    <img src="./assets/miniGamePic/numberQuiz.webp"
                       class="w-24 h-24 object-cover rounded-lg shadow-md hover:shadow-xl transition-transform duration-300 hover:scale-105 cursor-pointer" />
                   </button>
                   <p class="text-center text-sm text-gray-700 font-medium mt-2">
@@ -687,7 +687,7 @@ changeBackground();
                 <!-- Guessing from Pictures Game -->
                 <div class="flex flex-col items-center">
                   <button @click="newGuessingQuestion">
-                    <img src="./assets/miniGamePic/guessingFromPic.jpg"
+                    <img src="./assets/miniGamePic/guessingFromPic.webp"
                       class="w-24 h-24 object-cover rounded-lg shadow-md hover:shadow-xl transition-transform duration-300 hover:scale-105 cursor-pointer" />
                   </button>
                   <p class="text-center text-sm text-gray-700 font-medium mt-2">
@@ -699,7 +699,7 @@ changeBackground();
                 <!-- Unit Converter Game -->
                 <div class="flex flex-col items-center">
                   <button @click="openMiniGame3">
-                    <img src="./assets/miniGamePic/unitConverterGame.jpg"
+                    <img src="./assets/miniGamePic/unitConverterGame.webp"
                       class="w-24 h-24 object-cover rounded-lg shadow-md hover:shadow-xl transition-transform duration-300 hover:scale-105 cursor-pointer" />
                   </button>
                   <p class="text-center text-sm text-gray-700 font-medium mt-2">
@@ -713,7 +713,7 @@ changeBackground();
                 <!-- Rock-Paper-Scissors Game -->
                 <div class="flex flex-col items-center">
                   <button @click="openMiniGame4">
-                    <img src="./assets/miniGamePic/rockPaperSccisors.jpg"
+                    <img src="./assets/miniGamePic/rockPaperSccisors.webp"
                       class="w-24 h-24 object-cover rounded-lg shadow-md hover:shadow-xl transition-transform duration-300 hover:scale-105 cursor-pointer" />
                   </button>
                   <p class="text-center text-sm text-gray-700 font-medium mt-2">
