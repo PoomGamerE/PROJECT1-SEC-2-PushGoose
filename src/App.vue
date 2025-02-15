@@ -11,8 +11,8 @@ const musicBadBgPlayer = ref(null)
 
 // logic แยกระหว่างเสียง background ห่านดีกับไม่ดี
 const playBgMusic = () => {
-  if (!musicGoodBgPlayer.value || !musicBadBgPlayer.value) 
-  return
+  if (!musicGoodBgPlayer.value || !musicBadBgPlayer.value)
+    return
   musicGoodBgPlayer.value.pause()
   musicBadBgPlayer.value.pause()
 
@@ -618,29 +618,39 @@ changeBackground();
               4px 4px 8px rgba(0, 0, 0, 0.7);
           "></h2>
 
-        <!-- Volume & Image Selector -->
-        <div class="absolute top-5 right-5 flex gap-4">
+        <!-- Action Buttons Container -->
+        <div
+          class="sm:absolute sm:top-5 sm:right-5 sm:flex sm:items-center sm:gap-4
+            max-sm:fixed max-sm:bottom-0 max-sm:left-0 max-sm:w-full max-sm:flex max-sm:justify-center max-sm:gap-2 max-sm:py-2 max-sm:bg-gray-900 max-sm:border-t max-sm:border-gray-700">
+
+          <!-- Music Button (อยู่ด้านซ้ายของปุ่มอื่นๆ) -->
           <div>
-            <!-- Music Button -->
-            <img :src="onBgMusic ? './volumeOn-Off/volume-on.png' : './volumeOn-Off/volume-off.png'" 
-              @click="onBgMusic = !onBgMusic; playBgMusic()"
-              class="w-12 h-12 cursor-pointer" />
+            <button @click="onBgMusic = !onBgMusic; playBgMusic()"
+              class="w-12 h-12 flex items-center justify-center rounded-lg bg-white border-2 border-gray-300 shadow-md transition-all hover:scale-105">
+              <img :src="onBgMusic ? './volumeOn-Off/volume-on.png' : './volumeOn-Off/volume-off.png'"
+                class="w-6 h-6" />
+            </button>
           </div>
 
           <!-- Change Goose Type -->
           <select @change="changeImage" v-model="Goose"
-            class="px-4 py-2 text-white font-semibold rounded-lg bg-green-500 hover:bg-green-600 transition cursor-pointer">
-            <option value="Goose">Goose</option>
-            <option value="BadGoose">Bad</option>
+            class="px-4 py-2 font-semibold text-white rounded-md bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 transition-all border border-green-500 focus:ring-2 focus:ring-green-300 text-sm max-sm:px-3 max-sm:py-1">
+            <option class="text-black" value="Goose">Goose</option>
+            <option class="text-black" value="BadGoose">Bad</option>
           </select>
-        </div>
 
-        <!-- Mini Game Button (อยู่ขวาบนเหมือนเดิม) -->
-        <div class="absolute top-21 right-5">
+          <!-- Mini Game Button -->
           <button
-            class="px-6 py-3 text-white font-semibold rounded-xl bg-indigo-500 hover:bg-indigo-600 transition-all duration-300 hover:-translate-y-1 hover:scale-110 cursor-pointer"
+            class="px-4 py-2 text-white font-semibold rounded-md bg-gradient-to-r from-indigo-500 to-indigo-700 hover:from-indigo-600 hover:to-indigo-800 transition-all border border-indigo-500 focus:ring-2 focus:ring-indigo-300 text-sm max-sm:px-3 max-sm:py-1"
             @click="openMiniGameModal">
             Mini Game
+          </button>
+
+          <!-- Tutorial Button -->
+          <button
+            class="px-4 py-2 text-white font-semibold rounded-md bg-gradient-to-r from-blue-500 to-blue-700 hover:from-blue-600 hover:to-blue-800 transition-all border border-blue-500 focus:ring-2 focus:ring-blue-300 text-sm max-sm:px-3 max-sm:py-1"
+            @click="openTutorialModal">
+            How To Play
           </button>
         </div>
 
@@ -719,14 +729,6 @@ changeBackground();
         </div>
 
         <div class="fixed top-0 left-0 bottom-0 right-0 pointer-events-none"></div>
-        <!-- Tutorial Button -->
-        <div class="absolute top-35 right-5">
-          <button
-            class="px-6 py-3 text-white font-semibold rounded-xl bg-indigo-500 hover:bg-indigo-600 transition-all duration-300 hover:-translate-y-1 hover:scale-110 cursor-pointer"
-            @click="openTutorialModal">
-            How To Play
-          </button>
-        </div>
 
         <!-- Backdrop (blurred background) -->
         <div v-if="currentTutorialPage > 0" class="fixed inset-0 backdrop-blur-sm pointer-events-auto z-10"
@@ -801,7 +803,7 @@ changeBackground();
                 <p>
                   We also have mini-games. The first game we have is a Number
                   Quiz game. The second game we have is a Guessing from Pic
-                  game. The third game we have is a Unit Converter game 
+                  game. The third game we have is a Unit Converter game
                   and the last game is Rock-Paper-Scissors game.
                 </p>
               </div>
