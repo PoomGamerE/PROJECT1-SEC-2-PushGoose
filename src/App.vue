@@ -206,11 +206,10 @@ const increaseCount = () => {
 //Random Multiple 
 function RandomMultiple() {
   ClickNumber++ //นับว่าคลิกไปกี่ครั้งแล้วหลังจากไม่ได้ตัวคูณ
-  const Ran = Math.ceil(Math.random() * 30);
+  const Ran = getRandomIntInclusive(1,30)
   if (Ran - ClickNumber > 0) { //ยิ่งกดไม่ติดเยอะ โอกาศยิ่งเพิ่มขึ้นการันตีอยู่ที่30ครั้งF
     PresentMultiple.value = 1 //รีเซ็ตตัวคูณ
     MultipleColor = "color:black"
-    return PresentMultiple.value
   } else if (Ran - ClickNumber <= 0) {
     PresentMultiple.value = Math.ceil(Math.random() * 10) //สุ่มตัวคูณ1-10
     ClickNumber = 0 //รีเซ็ตค่าคลิก
@@ -223,7 +222,6 @@ function RandomMultiple() {
         }
       }
     }
-    return PresentMultiple.value
   }
 }
 
@@ -270,6 +268,7 @@ function ForMathSum() {
 }
 
 function MinigameMath() { // ตัวเริ่ม Minigame ทายตัวเลข
+  isMiniGameModalOpen.value = false
   ResetMathMinigame(false)
   mathsum = ForMathSum()
   if (Timeouts.length === 0 && mathsum !== 0 && mathsum !== undefined && mathsum !== null) {
