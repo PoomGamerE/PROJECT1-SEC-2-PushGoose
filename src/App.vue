@@ -65,11 +65,13 @@ const goose_mouth_image_close = ref("./gooseImages/goose_mouth_close.webp");
 const goose_mouth_image = ref(goose_mouth_image_close.value);
 
 //Change img zone
-const changeImage = (event) => {
-  if (event.target.value === "BadGoose") {
-    changeImagegooseBadGoose()
-  } else if (event.target.value === "Goose") changeImagegoose()
-};
+watch(Goose, (newValue) => {
+      if (newValue === "BadGoose") {
+        changeImagegooseBadGoose()
+      } else {
+        changeImagegoose()
+      }
+    })
 
 const mouthclose = () => {
   goose_mouth_image.value = goose_mouth_image_close.value;
@@ -84,8 +86,7 @@ const changeImagegooseBadGoose = () => {
   score_from_browser_BadGoose =
     Number(localStorage.getItem("scoreBadGoose")) || 0;
   score_count.value = score_from_browser_BadGoose;
-  goose_mouth_image_close.value =
-    "./gooseImages/goose_mouth_close_BadGoose.webp";
+  goose_mouth_image_close.value ="./gooseImages/goose_mouth_close_BadGoose.webp";
   goose_mouth_image_open.value = "./gooseImages/goose_mouth_open_BadGoose.webp";
   goose_mouth_image.value = goose_mouth_image_close.value;
   Goose.value = "BadGoose";
@@ -632,7 +633,7 @@ changeBackground();
           </div>
 
           <!-- Change Goose Type -->
-          <select @change="changeImage" v-model="Goose"
+          <select v-model="Goose"
             class="px-4 py-2 font-semibold text-white rounded-md bg-gradient-to-r from-green-400 to-green-600 hover:from-green-500 hover:to-green-700 transition-all border border-green-500 focus:ring-2 focus:ring-green-300 text-sm max-sm:px-3 max-sm:py-1">
             <option class="text-black" value="Goose">Goose</option>
             <option class="text-black" value="BadGoose">Bad</option>
