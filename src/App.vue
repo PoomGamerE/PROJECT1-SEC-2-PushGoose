@@ -403,7 +403,8 @@ const openMiniGame3 = () => {
   isMiniGameModalOpen.value = false;
   minigame3On.value = true;
   randomQuestionOfGame3();
-  setTimeout(closeMiniGame3, 15000);
+  let Timeout2 = setTimeout(closeMiniGame3, 15000);
+  Timeouts.push(Timeout2)
 };
 
 const closeMiniGame3 = () => {
@@ -448,7 +449,7 @@ watch(userAnswer, (newValue, oldValue) => {
       scoreGiveForWin.value = getRandomIntInclusive(10, 100);
       AddGameScore(scoreGiveForWin.value);
       userAnswer.value = "";
-      clearTimeout(setTimeout(closeMiniGame3, 15000));
+      clearAlltimeout();
       congratPlayerWin();
     }
   } else {
@@ -456,7 +457,7 @@ watch(userAnswer, (newValue, oldValue) => {
       scoreGiveForWin.value = getRandomIntInclusive(10, 100);
       AddGameScore(scoreGiveForWin.value);
       userAnswer.value = "";
-      clearTimeout(setTimeout(closeMiniGame3, 15000));
+      clearAlltimeout();
       congratPlayerWin();
     }
   }
