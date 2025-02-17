@@ -134,15 +134,7 @@ function setScore(score) {
 }
 
 //Change Background
-const bgWindowXP = "./backgroundImages/WindowsXp.webp";
-const bgFlame = "./backgroundImages/Fireflam.webp";
-const bgBrain = "./backgroundImages/Brain.webp";
-const bgMountain = "./backgroundImages/mountain.webp";
-const bgSea = "./backgroundImages/sea.webp";
-const bgVolcano = "./backgroundImages/volcano.webp";
-const bgSpace = "./backgroundImages/space.webp";
-
-const background = ref(bgWindowXP); //Original Background
+const background = ref(""); //Original Background
 
 function changeBackground() {
   if (Goose.value === "Goose") {
@@ -154,19 +146,19 @@ function changeBackground() {
 
 function changeBackgroundGoose() {
   if (score_count.value > 10000) {
-    background.value = bgBrain;
+    background.value = "./backgroundImages/Goodbg/goodBG7.webp";
   } else if (score_count.value > 7000) {
-    background.value = bgSpace;
+    background.value = "./backgroundImages/Goodbg/goodBG6.webp";
   } else if (score_count.value > 4500) {
-    background.value = bgVolcano;
+    background.value = "./backgroundImages/Goodbg/goodBG5.webp";
   } else if (score_count.value > 3000) {
-    background.value = bgFlame;
+    background.value = "./backgroundImages/Goodbg/goodBG4.webp";
   } else if (score_count.value > 1500) {
-    background.value = bgSea;
+    background.value = "./backgroundImages/Goodbg/goodBG3.webp";
   } else if (score_count.value > 500) {
-    background.value = bgMountain;
+    background.value = "./backgroundImages/Goodbg/goodBG2.webp";
   } else {
-    background.value = bgWindowXP;
+    background.value = "./backgroundImages/Goodbg/goodBG1.webp";
   }
 }
 
@@ -184,7 +176,7 @@ function changeBackgroundBadGoose() {
   } else if (score_count.value < -500) {
     background.value = "./backgroundImages/Badbg/Cave_front.webp";
   } else {
-    background.value = bgWindowXP;
+    background.value = "./backgroundImages/Goodbg/goodBG1.webp";
   }
 }
 
@@ -309,7 +301,7 @@ const guessingQuestion = [
   },
   {
     image1: "./guessinggame/ลิ้น.webp",
-    image2: "./guessinggame/ข้าวจี่่.webp",
+    image2: "./guessinggame/ข้าวจี่.webp",
     answer: "ลิ้นจี่",
   },
   {
