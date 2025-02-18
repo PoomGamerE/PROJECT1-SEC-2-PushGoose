@@ -535,7 +535,7 @@ const closeCongratPlayerWin = () => {
   minigameWin.value = false;
 };
 
-//เพิ่มคะแนนเมือจบเกม--------
+//เพิ่มคะแนนตามจำนวนตัวเลขที่ต้องการหรือสุ่มตัวเลข--------
 const AddGameScore = (score) => {
   if (Goose.value === "Goose") {
     setScore(score_count.value + score);
@@ -546,7 +546,7 @@ const AddGameScore = (score) => {
   }
 };
 
-//ลดคะแนน
+//เพิ่มคะแนนสำหรับเพิ่มเป็นเปอร์เซ็นต์---------
 const multiplyGameScore = (score) => {
   setScore(score_count.value + score);
   changeBackground()
