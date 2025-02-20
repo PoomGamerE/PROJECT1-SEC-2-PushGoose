@@ -731,7 +731,7 @@ changeBackground();
         <div v-if="currentTutorialPage > 0">
           <div
             class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border border-black rounded-lg z-10 bg-orange-100 
-           max-w-xs sm:max-w-lg md:max-w-xl lg:max-w-xl w-full p-3 sm:p-5 md:p-6"
+           max-w-xs sm:max-w-lg md:max-w-xl lg:max-w-2xl w-full p-3 sm:p-5 md:p-2"
             @click.stop>
             <!-- Page 1 -->
             <div v-if="currentTutorialPage === 1">
@@ -742,16 +742,13 @@ changeBackground();
                   &times;
                 </button>
               </div>
-              <div class="mt-3">
-                <p>
+              <div class="mt-2">
+                <p class="text-center">
                   ถ้ากดที่ห่านแล้วจะได้คะแนนและบ้างครั้งคะแนนก็จะสุ่มเพิ่มขึ้น
                 </p>
-                <img src="./assets/tutorialPic/tutorial1.webp" class="block mx-auto w-full max-w-xs sm:max-w-2xs md:max-w-2xs my-4">
-                <p>ในรูปก็คือ X4 ก็คือปกติเราจะกดแล้วได้แค่ 1 คะแนน แต่ถ้าได้ X4 ก็จะคูณ 4 เข้าไป ทำให้ได้คะแนนเพิ่มขึ้นเป็น</p>
-                <p>4 x 1 = 4 คะแนน</p>
-                <p>สามารถสุ่มได้สูงสุดคือ X10</p>
-                <br>
-                <p>แล้วก็ไม่ต้องกลัวไปว่าถ้ารีเฟรชแล้วคะแนนจะหายไป เราได้ทำการเก็บคะแนนของคุณเอาไว้แล้ว!</p>
+                <img src="./assets/tutorialPic/tutorial1.webp" class="block mx-auto w-full max-w-3xs sm:max-w-3xs md:max-w-3xs">
+                <p>ในรูปก็คือ X4 ก็คือปกติเราจะกดแล้วได้แค่ 1 คะแนน แต่ถ้าได้ X4 ก็จะคูณ 4 เข้าไป 
+                  ทำให้ได้คะแนนเพิ่มขึ้นเป็น 4 x 1 = 4 คะแนน สามารถสุ่มได้สูงสุดคือ X10 แล้วก็ไม่ต้องกลัวไปว่าถ้ารีเฟรชแล้วคะแนนจะหายไป เราได้ทำการเก็บคะแนนของคุณเอาไว้แล้ว!</p>
               </div>
               <div class="flex justify-end mt-4">
                 <button @click="nextTutorial"
@@ -770,19 +767,18 @@ changeBackground();
                   &times;
                 </button>
               </div>
-              <div class="mt-3">
-                <img src="./assets/tutorialPic/tutorial2.webp" class="block mx-auto w-full max-w-xs sm:max-w-2xs md:max-w-2xs my-4">
+              <div class="mt-2">
+                <img src="./assets/tutorialPic/tutorial2.webp" class="block mx-auto w-full max-w-3xs sm:max-w-3xs md:max-w-3xs ">
                 <p>
-                  การเปลี่ยนตัวละครห่าน
-                  คุณสามารถเปลี่ยนไปเป็นห่านไม่ดีได้แต่มันจะใช้คะแนนอีกตัวหนึ่งที่ไม่เกี่ยวกับห่านดี
+                  คุณสามารถเปลี่ยนไปเป็นห่านร้ายได้แต่จะใช้คะแนนอีกตัวนึงที่ไม่เกี่ยวกับห่านดี
                   และก็ทำให้ค่าคะแนนติดลบแทนตอนเวลากด
                 </p>
-                <img src="./assets/tutorialPic/badGoosePic.webp" class="block mx-auto w-full max-w-3xs sm:max-w-2xs md:max-w-2xs my-4">
+                <img src="./assets/tutorialPic/badGoosePic.webp" class="block mx-auto w-full max-w-3xs sm:max-w-3xs md:max-w-3xs ">
                 <p>
-                  แล้วก็ตอนกดไปได้คะแนนในระยะนึงแล้วแบคกราวพื้นหลังจะเปลี่ยนไปด้วยขึ้นอยู่กับคะแนนที่มีซึ่งห่านดีกับห่านร้ายจะมีแบคกราวที่ไม่เหมือนกัน
+                  แล้วก็ตอนกดไปได้คะแนนในระยะนึงแล้วแบคกราวจะเปลี่ยนไปด้วยขึ้นอยู่กับคะแนนที่มีซึ่งห่านดีกับห่านร้ายจะมีแบคกราวที่ไม่เหมือนกัน
                 </p>
               </div>
-              <div class="flex justify-between mt-4">
+              <div class="flex justify-between mt-0.5">
                 <button @click="prevTutorial"
                   class="cursor-pointer rounded-md bg-red-500 hover:bg-red-600 transition-all duration-300 hover:-translate-y-1 hover:scale-110 text-white px-4 py-2 w-full sm:w-auto">
                   Back
@@ -860,20 +856,13 @@ changeBackground();
                 </button>
               </div>
               <div class="mt-3">
-                <p class="text-center">
-                  มินิเกมแรกก็เป็นเกมคิดเลขที่จะให้คิดเลขให้ถูกต้อง
-                </p>
 
-                <img src="./assets/tutorialPic/numberQwithin30.webp" class="block mx-auto w-sm sm:w-sm my-6">
+                <img src="./assets/tutorialPic/numberQwithin30.webp" class="block mx-auto w-sm sm:w-sm my-1">
 
                 <p class="text-center">
-                  มีเวลาจำกัดให้ 30 วินาที ถ้าตอบไม่ทันจะโดนลดคะแนน
+                  มีเวลาจำกัดให้ 30 วินาที ถ้าตอบไม่ทันจะโดนลดคะแนน แต่ถ้าตอบถูกก็จะได้คะแนนซึ่งคะแนนที่จะได้จะเป็นการสุ่ม
                 </p>
-                <p class="text-center">
-                  แต่ถ้าตอบถูกก็จะได้คะแนนซึ่งคะแนนที่จะได้จะเป็นการสุ่ม
-                </p>
-
-                <img src="./assets/tutorialPic/playerWin.webp" class="block mx-auto w-sm sm:w-sm my-6">
+                <img src="./assets/tutorialPic/playerWin.webp" class="block mx-auto w-sm sm:w-sm my-1">
               </div>
               <div class="flex justify-between mt-4">
                 <button @click="prevTutorial"
@@ -896,25 +885,18 @@ changeBackground();
                   &times;
                 </button>
               </div>
-              <div class="mt-3">
-                <p class="text-center">
-                  มินิเกมที่สองก็เป็นจะเกมที่จะให้ทายคำจากรูปภาพให้ถูกต้อง
-                </p>
+              <div class="mt-2">
 
-                <img src="./assets/tutorialPic/guessingFPanswerW.webp" class="block mx-auto w-full max-w-3xs sm:max-w-3xs md:max-w-3xs my-2">
+                <img src="./assets/tutorialPic/guessingFPanswerW.webp" class="block mx-auto w-full max-w-3xs sm:max-w-3xs md:max-w-3xs ">
 
                 <p class="text-center">
-                  ไม่มีเวลาจำกัด ถ้าตอบไม่ทันจะไม่โดนลดคะแนนแต่ต้องไปเล่นใหม่ให้ถูกต้องถึงจะได้คะแนน แต่ถ้าตอบถูกก็จะได้คะแนนซึ่งคะแนนที่จะได้จะเป็นการสุ่ม
+                  ไม่มีเวลาจำกัด ถ้าตอบถูกก็จะได้คะแนนซึ่งคะแนนที่ได้จะเป็นการสุ่มแต่ถ้าผิดก็ต้องเล่นใหม่ ถ้าคิดว่าคำตอบยากเกินไปก็สุ่มคำถามใหม่ได้
                 </p>
-
-                <div class="flex">
-                  <img src="./assets/tutorialPic/gfpNewQ.webp" class="block mx-auto w-full max-w-3xs sm:max-w-3xs md:max-w-3xs my-2">
+                <div>
+                  <img src="./assets/tutorialPic/gfpNewQ.webp" class="block mx-auto w-full max-w-3xs sm:max-w-3xs md:max-w-3xs ">
                 </div>
-                <p class="text-center">
-                  ถ้าคิดว่าคำตอบยากเกินไปก็สุ่มคำถามใหม่ได้ตรงปุ่ม New Question
-                </p>
               </div>
-              <div class="flex justify-between mt-4">
+              <div class="flex justify-between mt-2">
                 <button @click="prevTutorial"
                   class="cursor-pointer rounded-md bg-red-500 hover:bg-red-600 transition-all duration-300 hover:-translate-y-1 hover:scale-110 text-white px-4 py-2 w-full sm:w-auto">
                   Back
@@ -936,11 +918,8 @@ changeBackground();
                 </button>
               </div>
               <div class="mt-3">
-                <p class="text-center">
-                  มินิเกมที่สามก็เป็นจะเกมที่จะให้แปลงค่าจากตัวเลขที่ให้มาให้ถูกต้อง
-                </p>
 
-                <img src="./assets/tutorialPic/cvtMiniGame.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
+                <img src="./assets/tutorialPic/cvtMiniGame.webp" class="block mx-auto w-2xs sm:w-2xs my-2">
 
                 <p class="text-center">
                   เกมนี้มีเวลาจำกัดให้ 15 วินาที ถ้าตอบไม่ทันจะไม่โดนลดคะแนนแต่ต้องตอบไปเรื่อยๆ จนกว่าจะถูก
@@ -949,7 +928,7 @@ changeBackground();
                   ถ้าตอบถูกก็จะได้คะแนนซึ่งคะแนนที่จะได้จะเป็นการสุ่ม
                 </p>
 
-                  <img src="./assets/tutorialPic/playerWin2.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
+                  <img src="./assets/tutorialPic/playerWin2.webp" class="block mx-auto w-2xs sm:w-2xs my-2">
               </div>
               <div class="flex justify-between mt-4">
                 <button @click="prevTutorial"
@@ -973,21 +952,14 @@ changeBackground();
                 </button>
               </div>
               <div class="mt-3">
-                <p class="text-center">
-                  มินิเกมสุดท้ายก็เป็นจะเกมเป่ายิ้งฉุบ
-                </p>
 
-                <img src="./assets/tutorialPic/rps1.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
-
+                <img src="./assets/tutorialPic/rps1.webp" class="block mx-auto w-2xs sm:w-2xs my-2">
                 <p class="text-center">
-                  เกมนี้ไม่มีเวลาจำกัด จะมี ค้อน,กระดาษ,กรรไกร ให้เลือก
-                </p>
-                <p class="text-center">
-                  และเกมนี้จะให้เป่ายิ้งฉุบสู้กับบอทซึ่งตัวเลือกของบอทจะเป็นการสุ่ม
+                  เกมนี้จะให้เป่ายิ้งฉุบสู้กับบอทซึ่งตัวเลือกของบอทจะเป็นการสุ่ม
                 </p>
             
                 <div class="flex">
-                  <img src="./assets/tutorialPic/rpsLose.webp" class="block mx-auto w-full max-w-3xs sm:max-w-3xs md:max-w-3xs my-4">
+                  <img src="./assets/tutorialPic/rpsLose.webp" class="block mx-auto w-full max-w-3xs sm:max-w-3xs md:max-w-3xs my-2">
                 </div>
                 <p class="text-center">
                   ถ้าชนะบอทได้ก็จะได้คะแนนซึ่งคะแนนที่จะได้จะเป็นการสุ่ม แต่ถ้าแพ้หรือเสมอก็ต้องเล่นจนกว่าชนะ
