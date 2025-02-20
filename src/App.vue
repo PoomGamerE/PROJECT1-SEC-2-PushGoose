@@ -893,7 +893,7 @@ changeBackground();
           <span class="text-3xl font-bold text-gray-800">=</span>
           <div class="border p-4 rounded w-full flex flex-col bg-gray-100 text-gray-700">
             <input type="number" class="border-none w-full text-center text-2xl py-2 bg-transparent focus:outline-none"
-              v-model="userAnswer" placeholder="พิมคำตอบที่นี่" />
+              v-model="userAnswer" placeholder="พิมพ์คำตอบที่นี่" />
             <select disabled class="border-t p-2 w-full bg-gray-300 text-gray-700 text-sm rounded">
               <option selected>{{ unitNameAfter }}</option>
             </select>
