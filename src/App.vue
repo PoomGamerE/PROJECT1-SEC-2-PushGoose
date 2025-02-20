@@ -730,7 +730,8 @@ changeBackground();
         <!-- Tutorial Modal -->
         <div v-if="currentTutorialPage > 0">
           <div
-            class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border border-black rounded-lg z-10 bg-orange-100 max-w-xl sm:max-w-3xl w-full p-4 sm:p-6"
+            class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border border-black rounded-lg z-10 bg-orange-100 
+           max-w-xs sm:max-w-lg md:max-w-xl lg:max-w-xl w-full p-3 sm:p-5 md:p-6"
             @click.stop>
             <!-- Page 1 -->
             <div v-if="currentTutorialPage === 1">
@@ -745,7 +746,7 @@ changeBackground();
                 <p>
                   ถ้ากดที่ห่านแล้วจะได้คะแนนและบ้างครั้งคะแนนก็จะสุ่มเพิ่มขึ้น
                 </p>
-                <img src="./assets/tutorialPic/tutorial1.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
+                <img src="./assets/tutorialPic/tutorial1.webp" class="block mx-auto w-full max-w-xs sm:max-w-2xs md:max-w-2xs my-4">
                 <p>ในรูปก็คือ X4 ก็คือปกติเราจะกดแล้วได้แค่ 1 คะแนน แต่ถ้าได้ X4 ก็จะคูณ 4 เข้าไป ทำให้ได้คะแนนเพิ่มขึ้นเป็น</p>
                 <p>4 x 1 = 4 คะแนน</p>
                 <p>สามารถสุ่มได้สูงสุดคือ X10</p>
@@ -770,13 +771,13 @@ changeBackground();
                 </button>
               </div>
               <div class="mt-3">
-                <img src="./assets/tutorialPic/tutorial2.webp" class="block mx-auto w-sm sm:w-sm my-6">
+                <img src="./assets/tutorialPic/tutorial2.webp" class="block mx-auto w-full max-w-xs sm:max-w-2xs md:max-w-2xs my-4">
                 <p>
                   การเปลี่ยนตัวละครห่าน
                   คุณสามารถเปลี่ยนไปเป็นห่านไม่ดีได้แต่มันจะใช้คะแนนอีกตัวหนึ่งที่ไม่เกี่ยวกับห่านดี
                   และก็ทำให้ค่าคะแนนติดลบแทนตอนเวลากด
                 </p>
-                <img src="./assets/tutorialPic/badGoosePic.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
+                <img src="./assets/tutorialPic/badGoosePic.webp" class="block mx-auto w-full max-w-3xs sm:max-w-2xs md:max-w-2xs my-4">
                 <p>
                   แล้วก็ตอนกดไปได้คะแนนในระยะนึงแล้วแบคกราวพื้นหลังจะเปลี่ยนไปด้วยขึ้นอยู่กับคะแนนที่มีซึ่งห่านดีกับห่านร้ายจะมีแบคกราวที่ไม่เหมือนกัน
                 </p>
@@ -900,18 +901,14 @@ changeBackground();
                   มินิเกมที่สองก็เป็นจะเกมที่จะให้ทายคำจากรูปภาพให้ถูกต้อง
                 </p>
 
-                <img src="./assets/tutorialPic/guessingFPanswerW.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
+                <img src="./assets/tutorialPic/guessingFPanswerW.webp" class="block mx-auto w-full max-w-3xs sm:max-w-3xs md:max-w-3xs my-2">
 
                 <p class="text-center">
-                  ไม่มีเวลาจำกัด ถ้าตอบไม่ทันจะไม่โดนลดคะแนนแต่ต้องไปเล่นใหม่ให้ถูกต้องถึงจะได้คะแนน
-                </p>
-                <p class="text-center">
-                  แต่ถ้าตอบถูกก็จะได้คะแนนซึ่งคะแนนที่จะได้จะเป็นการสุ่ม
+                  ไม่มีเวลาจำกัด ถ้าตอบไม่ทันจะไม่โดนลดคะแนนแต่ต้องไปเล่นใหม่ให้ถูกต้องถึงจะได้คะแนน แต่ถ้าตอบถูกก็จะได้คะแนนซึ่งคะแนนที่จะได้จะเป็นการสุ่ม
                 </p>
 
                 <div class="flex">
-                  <img src="./assets/tutorialPic/gfpNewQ.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
-                  <img src="./assets/tutorialPic/playerWin.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
+                  <img src="./assets/tutorialPic/gfpNewQ.webp" class="block mx-auto w-full max-w-3xs sm:max-w-3xs md:max-w-3xs my-2">
                 </div>
                 <p class="text-center">
                   ถ้าคิดว่าคำตอบยากเกินไปก็สุ่มคำถามใหม่ได้ตรงปุ่ม New Question
@@ -990,8 +987,7 @@ changeBackground();
                 </p>
             
                 <div class="flex">
-                  <img src="./assets/tutorialPic/rpsLose.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
-                  <img src="./assets/tutorialPic/playerWin2.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
+                  <img src="./assets/tutorialPic/rpsLose.webp" class="block mx-auto w-full max-w-3xs sm:max-w-3xs md:max-w-3xs my-4">
                 </div>
                 <p class="text-center">
                   ถ้าชนะบอทได้ก็จะได้คะแนนซึ่งคะแนนที่จะได้จะเป็นการสุ่ม แต่ถ้าแพ้หรือเสมอก็ต้องเล่นจนกว่าชนะ
