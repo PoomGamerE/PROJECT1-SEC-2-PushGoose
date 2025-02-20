@@ -66,12 +66,12 @@ const goose_mouth_image = ref(goose_mouth_image_close.value);
 
 //Change img zone
 watch(Goose, (newValue) => {
-      if (newValue === "BadGoose") {
-        changeImagegooseBadGoose()
-      } else {
-        changeImagegoose()
-      }
-    })
+  if (newValue === "BadGoose") {
+    changeImagegooseBadGoose()
+  } else {
+    changeImagegoose()
+  }
+})
 
 const mouthclose = () => {
   goose_mouth_image.value = goose_mouth_image_close.value;
@@ -86,7 +86,7 @@ const changeImagegooseBadGoose = () => {
   score_from_browser_BadGoose =
     Number(localStorage.getItem("scoreBadGoose")) || 0;
   score_count.value = score_from_browser_BadGoose;
-  goose_mouth_image_close.value ="./gooseImages/goose_mouth_close_BadGoose.webp";
+  goose_mouth_image_close.value = "./gooseImages/goose_mouth_close_BadGoose.webp";
   goose_mouth_image_open.value = "./gooseImages/goose_mouth_open_BadGoose.webp";
   goose_mouth_image.value = goose_mouth_image_close.value;
   Goose.value = "BadGoose";
@@ -199,7 +199,7 @@ const increaseCount = () => {
 //Random Multiple 
 function RandomMultiple() {
   ClickNumber++ //นับว่าคลิกไปกี่ครั้งแล้วหลังจากไม่ได้ตัวคูณ
-  const Ran = getRandomIntInclusive(1,30)
+  const Ran = getRandomIntInclusive(1, 30)
   if (Ran - ClickNumber > 0) { //ยิ่งกดไม่ติดเยอะ โอกาศยิ่งเพิ่มขึ้นการันตีอยู่ที่30ครั้งF
     PresentMultiple.value = 1 //รีเซ็ตตัวคูณ
     MultipleColor = "color:black"
@@ -353,7 +353,7 @@ function randomGuesingQuestion() {
 // reactive variable
 const isMiniGameModalOpen = ref(false);
 const currentTutorialPage = ref(0); // Tracks the current tutorial page
-const totalTutorialPages = 3; // Total number of tutorial pages
+const totalTutorialPages = 8; // Total number of tutorial pages
 
 //open & close MiniGameModal and TutorialModal
 const openMiniGameModal = () => {
@@ -730,12 +730,12 @@ changeBackground();
         <!-- Tutorial Modal -->
         <div v-if="currentTutorialPage > 0">
           <div
-            class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border border-black rounded-lg z-10 bg-orange-100 max-w-sm sm:max-w-lg w-full p-4 sm:p-6"
+            class="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 border border-black rounded-lg z-10 bg-orange-100 max-w-xl sm:max-w-3xl w-full p-4 sm:p-6"
             @click.stop>
             <!-- Page 1 -->
             <div v-if="currentTutorialPage === 1">
               <div class="flex justify-between items-center border-b border-black pb-2 text-lg sm:text-xl font-bold">
-                <div>#1 What is the purpose of this game?</div>
+                <div>#1 เป้าหมายของเกมนี้คืออะไร</div>
                 <button class="text-2xl font-bold text-gray-600 hover:text-red-500 transition cursor-pointer"
                   @click="closeTutorialModal">
                   &times;
@@ -743,9 +743,14 @@ changeBackground();
               </div>
               <div class="mt-3">
                 <p>
-                  If you click on the goose, you will get points, and sometimes
-                  the points will be randomly multiplied.
+                  ถ้ากดที่ห่านแล้วจะได้คะแนนและบ้างครั้งคะแนนก็จะสุ่มเพิ่มขึ้น
                 </p>
+                <img src="./assets/tutorialPic/tutorial1.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
+                <p>ในรูปก็คือ X4 ก็คือปกติเราจะกดแล้วได้แค่ 1 คะแนน แต่ถ้าได้ X4 ก็จะคูณ 4 เข้าไป ทำให้ได้คะแนนเพิ่มขึ้นเป็น</p>
+                <p>4 x 1 = 4 คะแนน</p>
+                <p>สามารถสุ่มได้สูงสุดคือ X10</p>
+                <br>
+                <p>แล้วก็ไม่ต้องกลัวไปว่าถ้ารีเฟรชแล้วคะแนนจะหายไป เราได้ทำการเก็บคะแนนของคุณเอาไว้แล้ว!</p>
               </div>
               <div class="flex justify-end mt-4">
                 <button @click="nextTutorial"
@@ -758,17 +763,22 @@ changeBackground();
             <!-- Page 2 -->
             <div v-if="currentTutorialPage === 2">
               <div class="flex justify-between items-center border-b border-black pb-2 text-lg sm:text-xl font-bold">
-                <div>#2 Change Goose</div>
+                <div>#2 การเปลี่ยนตัวห่าน</div>
                 <button class="text-2xl font-bold text-gray-600 hover:text-red-500 transition cursor-pointer"
                   @click="closeTutorialModal">
                   &times;
                 </button>
               </div>
               <div class="mt-3">
+                <img src="./assets/tutorialPic/tutorial2.webp" class="block mx-auto w-sm sm:w-sm my-6">
                 <p>
-                  You can change it to a bad goose, but it will cost different
-                  points than the good goose, and the points will be negative
-                  instead.
+                  การเปลี่ยนตัวละครห่าน
+                  คุณสามารถเปลี่ยนไปเป็นห่านไม่ดีได้แต่มันจะใช้คะแนนอีกตัวหนึ่งที่ไม่เกี่ยวกับห่านดี
+                  และก็ทำให้ค่าคะแนนติดลบแทนตอนเวลากด
+                </p>
+                <img src="./assets/tutorialPic/badGoosePic.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
+                <p>
+                  แล้วก็ตอนกดไปได้คะแนนในระยะนึงแล้วแบคกราวพื้นหลังจะเปลี่ยนไปด้วยขึ้นอยู่กับคะแนนที่มีซึ่งห่านดีกับห่านร้ายจะมีแบคกราวที่ไม่เหมือนกัน
                 </p>
               </div>
               <div class="flex justify-between mt-4">
@@ -786,7 +796,7 @@ changeBackground();
             <!-- Page 3 -->
             <div v-if="currentTutorialPage === 3">
               <div class="flex justify-between items-center border-b border-black pb-2 text-lg sm:text-xl font-bold">
-                <div>#3 What is Mini Game?</div>
+                <div>#3 ปุ่มเปิดปิดเสียง</div>
                 <button class="text-2xl font-bold text-gray-600 hover:text-red-500 transition cursor-pointer"
                   @click="closeTutorialModal">
                   &times;
@@ -794,10 +804,197 @@ changeBackground();
               </div>
               <div class="mt-3">
                 <p>
-                  We also have mini-games. The first game we have is a Number
-                  Quiz game. The second game we have is a Guessing from Pic
-                  game. The third game we have is a Unit Converter game
-                  and the last game is Rock-Paper-Scissors game.
+                  ปุ่มนี้สามารถใช้ปิดเปิดเสียงแบคกราวพื้นหลังได้ซึ่งเสียงแบคกราวพื้นหลังของห่านตัวดีและห่านตัวร้ายจะแตกต่างกันด้วย
+                </p>
+                <img src="./assets/tutorialPic/tutorial3.webp" class="block mx-auto w-sm sm:w-sm my-6">
+              </div>
+              <div class="flex justify-between mt-4">
+                <button @click="prevTutorial"
+                  class="cursor-pointer rounded-md bg-red-500 hover:bg-red-600 transition-all duration-300 hover:-translate-y-1 hover:scale-110 text-white px-4 py-2 w-full sm:w-auto">
+                  Back
+                </button>
+                <button @click="nextTutorial"
+                  class="cursor-pointer rounded-md bg-green-500 hover:bg-green-600 transition-all duration-300 hover:-translate-y-1 hover:scale-110 text-white px-4 py-2 w-full sm:w-auto">
+                  Next
+                </button>
+              </div>
+            </div>
+
+            <!-- Page 4 -->
+            <div v-if="currentTutorialPage === 4">
+              <div class="flex justify-between items-center border-b border-black pb-2 text-lg sm:text-xl font-bold">
+                <div>#4 ปุ่มมินิเกม</div>
+                <button class="text-2xl font-bold text-gray-600 hover:text-red-500 transition cursor-pointer"
+                  @click="closeTutorialModal">
+                  &times;
+                </button>
+              </div>
+              <div class="mt-3">
+                <img src="./assets/tutorialPic/miniGameButton.webp" class="block mx-auto w-sm sm:w-sm my-6">
+                <p>
+                  ปุ่มนี้สามารถใช้เปิดดูได้ว่ามีมินิเกมอันไหนให้เลือกเล่นได้บ้างซึ่ง เกม PushGoose
+                  ของเรามีมินิเกมให้เลือกทั้งหมด 4 เกม
+                </p>
+                <img src="./assets/tutorialPic/selectedMiniGame.webp" class="block mx-auto w-sm sm:w-sm my-6">
+              </div>
+              <div class="flex justify-between mt-4">
+                <button @click="prevTutorial"
+                  class="cursor-pointer rounded-md bg-red-500 hover:bg-red-600 transition-all duration-300 hover:-translate-y-1 hover:scale-110 text-white px-4 py-2 w-full sm:w-auto">
+                  Back
+                </button>
+                <button @click="nextTutorial"
+                  class="cursor-pointer rounded-md bg-green-500 hover:bg-green-600 transition-all duration-300 hover:-translate-y-1 hover:scale-110 text-white px-4 py-2 w-full sm:w-auto">
+                  Next
+                </button>
+              </div>
+            </div>
+
+            <!-- Page 5 -->
+            <div v-if="currentTutorialPage === 5">
+              <div class="flex justify-between items-center border-b border-black pb-2 text-lg sm:text-xl font-bold">
+                <div>#5 Number Quiz Minigame</div>
+                <button class="text-2xl font-bold text-gray-600 hover:text-red-500 transition cursor-pointer"
+                  @click="closeTutorialModal">
+                  &times;
+                </button>
+              </div>
+              <div class="mt-3">
+                <p class="text-center">
+                  มินิเกมแรกก็เป็นเกมคิดเลขที่จะให้คิดเลขให้ถูกต้อง
+                </p>
+
+                <img src="./assets/tutorialPic/numberQwithin30.webp" class="block mx-auto w-sm sm:w-sm my-6">
+
+                <p class="text-center">
+                  มีเวลาจำกัดให้ 30 วินาที ถ้าตอบไม่ทันจะโดนลดคะแนน
+                </p>
+                <p class="text-center">
+                  แต่ถ้าตอบถูกก็จะได้คะแนนซึ่งคะแนนที่จะได้จะเป็นการสุ่ม
+                </p>
+
+                <img src="./assets/tutorialPic/playerWin.webp" class="block mx-auto w-sm sm:w-sm my-6">
+              </div>
+              <div class="flex justify-between mt-4">
+                <button @click="prevTutorial"
+                  class="cursor-pointer rounded-md bg-red-500 hover:bg-red-600 transition-all duration-300 hover:-translate-y-1 hover:scale-110 text-white px-4 py-2 w-full sm:w-auto">
+                  Back
+                </button>
+                <button @click="nextTutorial"
+                  class="cursor-pointer rounded-md bg-green-500 hover:bg-green-600 transition-all duration-300 hover:-translate-y-1 hover:scale-110 text-white px-4 py-2 w-full sm:w-auto">
+                  Next
+                </button>
+              </div>
+            </div>
+
+            <!-- Page 6 -->
+            <div v-if="currentTutorialPage === 6">
+              <div class="flex justify-between items-center border-b border-black pb-2 text-lg sm:text-xl font-bold">
+                <div>#6 Guessing from Pic Minigame</div>
+                <button class="text-2xl font-bold text-gray-600 hover:text-red-500 transition cursor-pointer"
+                  @click="closeTutorialModal">
+                  &times;
+                </button>
+              </div>
+              <div class="mt-3">
+                <p class="text-center">
+                  มินิเกมที่สองก็เป็นจะเกมที่จะให้ทายคำจากรูปภาพให้ถูกต้อง
+                </p>
+
+                <img src="./assets/tutorialPic/guessingFPanswerW.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
+
+                <p class="text-center">
+                  ไม่มีเวลาจำกัด ถ้าตอบไม่ทันจะไม่โดนลดคะแนนแต่ต้องไปเล่นใหม่ให้ถูกต้องถึงจะได้คะแนน
+                </p>
+                <p class="text-center">
+                  แต่ถ้าตอบถูกก็จะได้คะแนนซึ่งคะแนนที่จะได้จะเป็นการสุ่ม
+                </p>
+
+                <div class="flex">
+                  <img src="./assets/tutorialPic/gfpNewQ.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
+                  <img src="./assets/tutorialPic/playerWin.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
+                </div>
+                <p class="text-center">
+                  ถ้าคิดว่าคำตอบยากเกินไปก็สุ่มคำถามใหม่ได้ตรงปุ่ม New Question
+                </p>
+              </div>
+              <div class="flex justify-between mt-4">
+                <button @click="prevTutorial"
+                  class="cursor-pointer rounded-md bg-red-500 hover:bg-red-600 transition-all duration-300 hover:-translate-y-1 hover:scale-110 text-white px-4 py-2 w-full sm:w-auto">
+                  Back
+                </button>
+                <button @click="nextTutorial"
+                  class="cursor-pointer rounded-md bg-green-500 hover:bg-green-600 transition-all duration-300 hover:-translate-y-1 hover:scale-110 text-white px-4 py-2 w-full sm:w-auto">
+                  Next
+                </button>
+              </div>
+            </div>
+
+            <!-- Page 7 -->
+            <div v-if="currentTutorialPage === 7">
+              <div class="flex justify-between items-center border-b border-black pb-2 text-lg sm:text-xl font-bold">
+                <div>#7 Unit Converter Minigame</div>
+                <button class="text-2xl font-bold text-gray-600 hover:text-red-500 transition cursor-pointer"
+                  @click="closeTutorialModal">
+                  &times;
+                </button>
+              </div>
+              <div class="mt-3">
+                <p class="text-center">
+                  มินิเกมที่สามก็เป็นจะเกมที่จะให้แปลงค่าจากตัวเลขที่ให้มาให้ถูกต้อง
+                </p>
+
+                <img src="./assets/tutorialPic/cvtMiniGame.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
+
+                <p class="text-center">
+                  เกมนี้มีเวลาจำกัดให้ 15 วินาที ถ้าตอบไม่ทันจะไม่โดนลดคะแนนแต่ต้องตอบไปเรื่อยๆ จนกว่าจะถูก
+                </p>
+                <p class="text-center">
+                  ถ้าตอบถูกก็จะได้คะแนนซึ่งคะแนนที่จะได้จะเป็นการสุ่ม
+                </p>
+
+                  <img src="./assets/tutorialPic/playerWin2.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
+              </div>
+              <div class="flex justify-between mt-4">
+                <button @click="prevTutorial"
+                  class="cursor-pointer rounded-md bg-red-500 hover:bg-red-600 transition-all duration-300 hover:-translate-y-1 hover:scale-110 text-white px-4 py-2 w-full sm:w-auto">
+                  Back
+                </button>
+                <button @click="nextTutorial"
+                  class="cursor-pointer rounded-md bg-green-500 hover:bg-green-600 transition-all duration-300 hover:-translate-y-1 hover:scale-110 text-white px-4 py-2 w-full sm:w-auto">
+                  Next
+                </button>
+              </div>
+            </div>
+
+            <!-- Page 8 -->
+            <div v-if="currentTutorialPage === 8">
+              <div class="flex justify-between items-center border-b border-black pb-2 text-lg sm:text-xl font-bold">
+                <div>#8 Rock-Paper-Scissors Minigame</div>
+                <button class="text-2xl font-bold text-gray-600 hover:text-red-500 transition cursor-pointer"
+                  @click="closeTutorialModal">
+                  &times;
+                </button>
+              </div>
+              <div class="mt-3">
+                <p class="text-center">
+                  มินิเกมสุดท้ายก็เป็นจะเกมเป่ายิ้งฉุบ
+                </p>
+
+                <img src="./assets/tutorialPic/rps1.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
+
+                <p class="text-center">
+                  เกมนี้ไม่มีเวลาจำกัด จะมี ค้อน,กระดาษ,กรรไกร ให้เลือก
+                </p>
+                <p class="text-center">
+                  และเกมนี้จะให้เป่ายิ้งฉุบสู้กับบอทซึ่งตัวเลือกของบอทจะเป็นการสุ่ม
+                </p>
+            
+                <div class="flex">
+                  <img src="./assets/tutorialPic/rpsLose.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
+                  <img src="./assets/tutorialPic/playerWin2.webp" class="block mx-auto w-2xs sm:w-2xs my-6">
+                </div>
+                <p class="text-center">
+                  ถ้าชนะบอทได้ก็จะได้คะแนนซึ่งคะแนนที่จะได้จะเป็นการสุ่ม แต่ถ้าแพ้หรือเสมอก็ต้องเล่นจนกว่าชนะ
                 </p>
               </div>
               <div class="flex justify-between mt-4">
@@ -811,6 +1008,7 @@ changeBackground();
                 </button>
               </div>
             </div>
+
           </div>
         </div>
       </div>
